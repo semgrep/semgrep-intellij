@@ -1,1 +1,1 @@
-rootProject.name = "semgrep-intellij"
+rootProject.name = "semgrep"

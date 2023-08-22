@@ -1,18 +1,67 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.ajbt200128.semgrepintellij</id>
-    <name>semgrep-intellij Template</name>
-    <vendor>ajbt200128</vendor>
+    <id>com.semgrep.semgrep</id>
+    <name>Semgrep</name>
+    <vendor>Semgrep</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.ultimate</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.ajbt200128.semgrepintellij.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <platform.lsp.serverSupportProvider implementation="com.semgrep.semgrep.lsp.SemgrepLspServerSupportProvider"/>
+        <applicationService
+                serviceImplementation="com.semgrep.semgrep.lsp.settings.AppSettingsState"/>
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.semgrep.semgrep.lsp.settings.AppSettingsConfigurable"
+                id="com.semgrep.semgrep.lsp.settings.AppSettingsConfigurable"
+                displayName="Semgrep"/>
     </extensions>
+    <actions>
+        <group
+                id="com.semgrep.semgrep.lsp.actions.SemgrepGroup"
+                text="Semgrep"
+                popup="true"
+                >
+            <add-to-group
+                    group-id="ToolsMenu"
+                    />
+            <action
+                    class="com.semgrep.semgrep.lsp.actions.LoginAction"
+                    id="com.semgrep.semgrep.lsp.actions.LoginAction"
+                    text="Sign In to Semgrep"
+                    description="Sign in to Semgrep Code for CI rules">
+            </action>
+            <action
+                    class="com.semgrep.semgrep.lsp.actions.LogoutAction"
+                    id="com.semgrep.semgrep.lsp.actions.LogoutAction"
+                    text="Sign Out of Semgrep"
+                    description="Sign out of Semgrep Code">
+            </action>
+            <separator/>
+            <action
+                    class="com.semgrep.semgrep.lsp.actions.RefreshRulesAction"
+                    id="com.semgrep.semgrep.lsp.actions.RefreshRulesAction"
+                    text="Update Semgrep Rules"
+                    description="Update Semgrep rules to newest versions">
+            </action>
+            <action
+                class="com.semgrep.semgrep.lsp.actions.ScanWorkspaceAction"
+                id="com.semgrep.semgrep.lsp.actions.ScanWorkspaceAction"
+                text="Scan Workspace with Semgrep"
+                description="Scan changed files in project with Semgrep">
+            </action>
+            <action
+                class="com.semgrep.semgrep.lsp.actions.ScanWorkspaceFullAction"
+                id="com.semgrep.semgrep.lsp.actions.ScanWorkspaceFullAction"
+                text="Scan Workspace with Semgrep (Full)"
+                description="Scan all files in project with Semgrep"
+                >
+            </action>
 
-    <applicationListeners>
-        <listener class="com.github.ajbt200128.semgrepintellij.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
+        </group>
+    </actions>
+
 </idea-plugin>
