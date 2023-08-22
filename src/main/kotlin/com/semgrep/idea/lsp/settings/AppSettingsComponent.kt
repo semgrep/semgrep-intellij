@@ -1,4 +1,4 @@
-package com.semgrep.semgrep.lsp.settings
+package com.semgrep.idea.lsp.settings
 
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.components.JBTextField

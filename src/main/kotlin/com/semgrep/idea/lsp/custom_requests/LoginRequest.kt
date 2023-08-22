@@ -1,11 +1,10 @@
-package com.semgrep.semgrep.lsp.custom_requests
+package com.semgrep.idea.lsp.custom_requests
 
 import com.intellij.platform.lsp.api.requests.LspRequest
-import com.semgrep.semgrep.lsp.SemgrepLspServer
 import java.util.concurrent.CompletableFuture
 data class LoginResult(val url:String, val sessionId:String)
 
-class LoginRequest(private val server:SemgrepLspServer): LspRequest<LoginResult, LoginResult>(server) {
+class LoginRequest(private val server: com.semgrep.idea.lsp.SemgrepLspServer): LspRequest<LoginResult, LoginResult>(server) {
     override fun preprocessResponse(serverResponse: LoginResult): LoginResult {
         return serverResponse
     }

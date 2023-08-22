@@ -1,6 +1,6 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.semgrep.semgrep</id>
+    <id>com.semgrep.idea</id>
     <name>Semgrep</name>
     <vendor>Semgrep</vendor>
 
@@ -10,18 +10,18 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <platform.lsp.serverSupportProvider implementation="com.semgrep.semgrep.lsp.SemgrepLspServerSupportProvider"/>
+        <platform.lsp.serverSupportProvider implementation="com.semgrep.idea.lsp.SemgrepLspServerSupportProvider"/>
         <applicationService
-                serviceImplementation="com.semgrep.semgrep.lsp.settings.AppSettingsState"/>
+                serviceImplementation="com.semgrep.idea.lsp.settings.AppSettingsState"/>
         <applicationConfigurable
                 parentId="tools"
-                instance="com.semgrep.semgrep.lsp.settings.AppSettingsConfigurable"
-                id="com.semgrep.semgrep.lsp.settings.AppSettingsConfigurable"
+                instance="com.semgrep.idea.lsp.settings.AppSettingsConfigurable"
+                id="com.semgrep.idea.lsp.settings.AppSettingsConfigurable"
                 displayName="Semgrep"/>
     </extensions>
     <actions>
         <group
-                id="com.semgrep.semgrep.lsp.actions.SemgrepGroup"
+                id="com.semgrep.idea.lsp.actions.SemgrepGroup"
                 text="Semgrep"
                 popup="true"
                 >
@@ -29,33 +29,33 @@
                     group-id="ToolsMenu"
                     />
             <action
-                    class="com.semgrep.semgrep.lsp.actions.LoginAction"
-                    id="com.semgrep.semgrep.lsp.actions.LoginAction"
+                    class="com.semgrep.idea.lsp.actions.LoginAction"
+                    id="com.semgrep.idea.lsp.actions.LoginAction"
                     text="Sign In to Semgrep"
                     description="Sign in to Semgrep Code for CI rules">
             </action>
             <action
-                    class="com.semgrep.semgrep.lsp.actions.LogoutAction"
-                    id="com.semgrep.semgrep.lsp.actions.LogoutAction"
+                    class="com.semgrep.idea.lsp.actions.LogoutAction"
+                    id="com.semgrep.idea.lsp.actions.LogoutAction"
                     text="Sign Out of Semgrep"
                     description="Sign out of Semgrep Code">
             </action>
             <separator/>
             <action
-                    class="com.semgrep.semgrep.lsp.actions.RefreshRulesAction"
-                    id="com.semgrep.semgrep.lsp.actions.RefreshRulesAction"
+                    class="com.semgrep.idea.lsp.actions.RefreshRulesAction"
+                    id="com.semgrep.idea.lsp.actions.RefreshRulesAction"
                     text="Update Semgrep Rules"
                     description="Update Semgrep rules to newest versions">
             </action>
             <action
-                class="com.semgrep.semgrep.lsp.actions.ScanWorkspaceAction"
-                id="com.semgrep.semgrep.lsp.actions.ScanWorkspaceAction"
+                class="com.semgrep.idea.lsp.actions.ScanWorkspaceAction"
+                id="com.semgrep.idea.lsp.actions.ScanWorkspaceAction"
                 text="Scan Workspace with Semgrep"
                 description="Scan changed files in project with Semgrep">
             </action>
             <action
-                class="com.semgrep.semgrep.lsp.actions.ScanWorkspaceFullAction"
-                id="com.semgrep.semgrep.lsp.actions.ScanWorkspaceFullAction"
+                class="com.semgrep.idea.lsp.actions.ScanWorkspaceFullAction"
+                id="com.semgrep.idea.lsp.actions.ScanWorkspaceFullAction"
                 text="Scan Workspace with Semgrep (Full)"
                 description="Scan all files in project with Semgrep"
                 >

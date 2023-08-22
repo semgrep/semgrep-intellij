@@ -1,4 +1,4 @@
-package com.semgrep.semgrep.lsp
+package com.semgrep.idea.lsp
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile

@@ -1,11 +1,11 @@
-package com.semgrep.semgrep.lsp.settings
+package com.semgrep.idea.lsp.settings
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 
 @State(
-    name = "com.semgrep.semgrep.lsp.settings.AppSettingsState",
+    name = "com.semgrep.idea.lsp.settings.AppSettingsState",
     storages = [Storage("SemgrepSettings.xml")],
 )
 class AppSettingsState:PersistentStateComponent<SemgrepLspServerSettings>{
