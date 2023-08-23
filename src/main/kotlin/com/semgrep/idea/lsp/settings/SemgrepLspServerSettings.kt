@@ -5,6 +5,7 @@ enum class TraceLevel {
     MESSAGES,
     VERBOSE,
 }
+
 data class SemgrepLspServerSettings(
     var trace: Trace = Trace(),
     var path: String = "semgrep",
@@ -14,7 +15,7 @@ data class SemgrepLspServerSettings(
     var metrics: Metrics = Metrics(),
 ) {
 
-    data class Trace(var server:TraceLevel = TraceLevel.OFF)
+    data class Trace(var server: TraceLevel = TraceLevel.OFF)
     data class Scan(
         var configuration: Array<String> = arrayOf(),
         var exclude: Array<String> = arrayOf(),

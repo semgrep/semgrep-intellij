@@ -26,10 +26,10 @@
                 id="com.semgrep.idea.lsp.actions.SemgrepGroup"
                 text="Semgrep"
                 popup="true"
-                >
+        >
             <add-to-group
                     group-id="ToolsMenu"
-                    />
+            />
             <action
                     class="com.semgrep.idea.lsp.actions.LoginAction"
                     id="com.semgrep.idea.lsp.actions.LoginAction"
@@ -50,17 +50,17 @@
                     description="Update Semgrep rules to newest versions">
             </action>
             <action
-                class="com.semgrep.idea.lsp.actions.ScanWorkspaceAction"
-                id="com.semgrep.idea.lsp.actions.ScanWorkspaceAction"
-                text="Scan Workspace with Semgrep"
-                description="Scan changed files in project with Semgrep">
+                    class="com.semgrep.idea.lsp.actions.ScanWorkspaceAction"
+                    id="com.semgrep.idea.lsp.actions.ScanWorkspaceAction"
+                    text="Scan Workspace with Semgrep"
+                    description="Scan changed files in project with Semgrep">
             </action>
             <action
-                class="com.semgrep.idea.lsp.actions.ScanWorkspaceFullAction"
-                id="com.semgrep.idea.lsp.actions.ScanWorkspaceFullAction"
-                text="Scan Workspace with Semgrep (Full)"
-                description="Scan all files in project with Semgrep"
-                >
+                    class="com.semgrep.idea.lsp.actions.ScanWorkspaceFullAction"
+                    id="com.semgrep.idea.lsp.actions.ScanWorkspaceFullAction"
+                    text="Scan Workspace with Semgrep (Full)"
+                    description="Scan all files in project with Semgrep"
+            >
             </action>
 
         </group>

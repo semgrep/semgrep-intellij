@@ -3,19 +3,18 @@ package com.semgrep.idea.lsp
 import com.semgrep.idea.lsp.custom_notifications.ScanWorkspaceParams
 import com.semgrep.idea.lsp.custom_requests.LoginResult
 import com.semgrep.idea.lsp.custom_requests.LoginStatusResult
-import org.eclipse.lsp4j.InitializedParams
 import org.eclipse.lsp4j.jsonrpc.services.JsonNotification
 import org.eclipse.lsp4j.jsonrpc.services.JsonRequest
 import org.eclipse.lsp4j.services.LanguageServer
 import java.util.concurrent.CompletableFuture
 
-interface SemgrepLanguageServer:LanguageServer {
+interface SemgrepLanguageServer : LanguageServer {
     // Requests
     @JsonRequest("semgrep/login")
-    fun login():CompletableFuture<LoginResult>
+    fun login(): CompletableFuture<LoginResult>
 
     @JsonRequest("semgrep/loginStatus")
-    fun loginStatus():CompletableFuture<LoginStatusResult>
+    fun loginStatus(): CompletableFuture<LoginStatusResult>
 
     // Notifications
     @JsonNotification("semgrep/loginFinish")
