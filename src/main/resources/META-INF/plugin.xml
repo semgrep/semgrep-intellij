@@ -18,7 +18,9 @@
                 instance="com.semgrep.idea.lsp.settings.AppSettingsConfigurable"
                 id="com.semgrep.idea.lsp.settings.AppSettingsConfigurable"
                 displayName="Semgrep"/>
+
     </extensions>
+
     <actions>
         <group
                 id="com.semgrep.idea.lsp.actions.SemgrepGroup"

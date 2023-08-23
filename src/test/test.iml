@@ -51,6 +51,11 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2023.2/5bcf969924aafaa0d1b4d4602ff824251b1004f6/ideaIC-2023.2-sources.jar!/" />
+          <root url="file://$MODULE_DIR$/../.." />
+          <root url="file://$MODULE_DIR$/../../.gradle/8.2.1/dependencies-accessors/5ff144de810dd952e050983bda2040fa7aa351f8/sources" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIU/2023.2/f1f971e7b3d88eb2ba4ff1ec356cdf3e015dea06/ideaIU-2023.2/lib/lib.jar!/" />
+          <root url="file://$MODULE_DIR$/../.." />
+          <root url="file://$MODULE_DIR$/../../.gradle/8.2.1/dependencies-accessors/5ff144de810dd952e050983bda2040fa7aa351f8/sources" />
         </SOURCES>
       </library>
     </orderEntry>
