@@ -6,7 +6,7 @@ import com.intellij.platform.lsp.api.LspServer
 import com.semgrep.idea.lsp.custom_notifications.LoginFinishRequest
 import com.semgrep.idea.lsp.custom_requests.LoginRequest
 
-class LoginAction : LspAction("Sign In to Semgrep") {
+class LoginAction : LspAction("Sign In to Semgrep Code") {
     override fun actionPerformed(e: AnActionEvent, servers: List<com.semgrep.idea.lsp.SemgrepLspServer>) {
         val loginRequest = LoginRequest(servers.first())
         val response = (servers.first() as LspServer).requestExecutor.sendRequestSync(loginRequest) ?: return
