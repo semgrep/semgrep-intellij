@@ -5,7 +5,8 @@ import java.util.concurrent.CompletableFuture
 
 data class LoginStatusResult(val loggedIn: Boolean)
 
-class LoginStatusRequest(private val server: com.semgrep.idea.lsp.SemgrepLspServer): LspRequest<LoginStatusResult,LoginStatusResult>(server) {
+class LoginStatusRequest(private val server: com.semgrep.idea.lsp.SemgrepLspServer) :
+    LspRequest<LoginStatusResult, LoginStatusResult>(server) {
     override fun preprocessResponse(serverResponse: LoginStatusResult): LoginStatusResult {
         return serverResponse
     }

@@ -1,11 +1,11 @@
-package com.semgrep.idea.lsp.settings
+package com.semgrep.idea.settings
 
 import com.intellij.openapi.options.Configurable
 import javax.swing.JComponent
 
-class AppSettingsConfigurable:Configurable {
+class AppSettingsConfigurable : Configurable {
 
-    private var settingsComponent:AppSettingsComponent? = null
+    private var settingsComponent: AppSettingsComponent? = null
 
     override fun createComponent(): JComponent? {
         val settings = AppSettingsState.getInstance().settings
@@ -23,6 +23,7 @@ class AppSettingsConfigurable:Configurable {
         appSettingsState.settings = newSettings
         settingsComponent?.setFieldValues(appSettingsState.settings)
     }
+
     override fun reset() {
         val settings = AppSettingsState.getInstance().settings
         settingsComponent?.setFieldValues(settings)

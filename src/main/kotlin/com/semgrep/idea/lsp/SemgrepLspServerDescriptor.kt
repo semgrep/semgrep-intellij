@@ -4,11 +4,12 @@ import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.lsp.api.ProjectWideLspServerDescriptor
-import com.semgrep.idea.lsp.settings.AppSettingsState
+import com.semgrep.idea.settings.AppSettingsState
 import org.eclipse.lsp4j.services.LanguageServer
 
-class SemgrepLspServerDescriptor(project:Project):ProjectWideLspServerDescriptor(project,"Semgrep") {
-    override val lsp4jServerClass: Class<out LanguageServer> = com.semgrep.idea.lsp.SemgrepLanguageServer::class.java
+class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescriptor(project, "Semgrep") {
+    override val lsp4jServerClass: Class<out LanguageServer> = SemgrepLanguageServer::class.java
+
     override fun createCommandLine(): GeneralCommandLine {
         val settingState = AppSettingsState.getInstance().settings
         return GeneralCommandLine(settingState.path).apply {
