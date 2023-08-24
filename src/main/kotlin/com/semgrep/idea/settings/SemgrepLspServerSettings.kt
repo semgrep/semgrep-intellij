@@ -1,4 +1,4 @@
-package com.semgrep.idea.lsp.settings
+package com.semgrep.idea.settings
 
 enum class TraceLevel {
     OFF,

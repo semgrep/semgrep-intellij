@@ -4,7 +4,7 @@ import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.lsp.api.ProjectWideLspServerDescriptor
-import com.semgrep.idea.lsp.settings.AppSettingsState
+import com.semgrep.idea.settings.AppSettingsState
 import org.eclipse.lsp4j.services.LanguageServer
 
 class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescriptor(project, "Semgrep") {

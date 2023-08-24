@@ -1,4 +1,4 @@
-package com.semgrep.idea.lsp.settings
+package com.semgrep.idea.settings
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.PersistentStateComponent
