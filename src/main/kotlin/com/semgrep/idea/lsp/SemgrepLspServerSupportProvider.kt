@@ -11,7 +11,6 @@ class SemgrepLspServerSupportProvider : LspServerSupportProvider {
         serverStarter: LspServerSupportProvider.LspServerStarter
     ) {
         serverStarter.ensureServerStarted(SemgrepLspServerDescriptor(project))
-
     }
 
 }

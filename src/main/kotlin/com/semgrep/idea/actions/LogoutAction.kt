@@ -6,7 +6,7 @@ import com.semgrep.idea.lsp.custom_notifications.LogoutNotifcation
 class LogoutAction : LspAction("Sign out of Semgrep Code") {
     override fun actionPerformed(e: AnActionEvent, servers: List<com.semgrep.idea.lsp.SemgrepLspServer>) {
         servers.map {
-            it.requestExecutor.sendNotification(LogoutNotifcation(it))
+            LogoutNotifcation(it).sendNotification()
         }
     }
 }

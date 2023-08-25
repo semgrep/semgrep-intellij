@@ -6,7 +6,7 @@ enum class TraceLevel {
     VERBOSE,
 }
 
-data class SemgrepLspServerSettings(
+data class SemgrepPluginSettings(
     var trace: Trace = Trace(),
     var path: String = "semgrep",
     var ignoreCliVersion: Boolean = false,

@@ -10,7 +10,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <platform.lsp.serverSupportProvider implementation="com.semgrep.idea.lsp.SemgrepLspServerSupportProvider"/>
         <applicationService
-                serviceImplementation="com.semgrep.idea.settings.AppSettingsState"/>
+                serviceImplementation="com.semgrep.idea.settings.AppState"/>
         <applicationConfigurable
                 parentId="tools"
                 instance="com.semgrep.idea.settings.AppSettingsConfigurable"
@@ -21,6 +21,7 @@
                 id="semgrepStatusBarPopUp"
                 implementation="com.semgrep.idea.ui.SemgrepStatusBarPopUp"/>
 
+        <notificationGroup displayType="BALLOON" id="Login Nudge Group"/>
     </extensions>
 
     <actions>

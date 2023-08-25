@@ -8,7 +8,6 @@ import com.intellij.platform.lsp.api.LspServerNotificationsHandler
 import com.intellij.platform.lsp.api.requests.LspRequestExecutor
 
 class SemgrepLspServer(private val server: LspServer) : LspServer {
-
     companion object {
         fun getInstances(project: Project): List<SemgrepLspServer> {
             val manager = LspServerManager.getInstance(project)
