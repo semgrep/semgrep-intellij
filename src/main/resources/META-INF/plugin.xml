@@ -22,6 +22,9 @@
                 implementation="com.semgrep.idea.ui.SemgrepStatusBarPopUp"/>
 
         <notificationGroup displayType="BALLOON" id="Login Nudge Group"/>
+        <notificationGroup displayType="BALLOON" id="Install Group"/>
+
+        <editorNotificationProvider implementation="com.semgrep.idea.ui.SemgrepInstallBannerProvider"/>
     </extensions>
 
     <actions>

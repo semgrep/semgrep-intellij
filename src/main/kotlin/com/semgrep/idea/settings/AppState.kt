@@ -5,7 +5,7 @@ import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 
-data class PluginSettings(var dismissedLoginNudge: Boolean = false)
+data class PluginSettings(var dismissedLoginNudge: Boolean = false, var handledInstallBanner: Boolean = false)
 data class AppStateData(
     var appSettings: SemgrepPluginSettings = SemgrepPluginSettings(),
     var pluginState: PluginSettings = PluginSettings()
