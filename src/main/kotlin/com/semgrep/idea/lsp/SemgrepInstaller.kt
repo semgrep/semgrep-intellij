@@ -38,7 +38,7 @@ object SemgrepInstaller {
     }
 
     fun getCliVersion(): SemVer? {
-        val cmd = GeneralCommandLine("semgrep","--version")
+        val cmd = GeneralCommandLine("semgrep", "--version")
         val process = cmd.createProcess()
         process.waitFor()
         val out = process.inputStream.bufferedReader().readText().trim()
