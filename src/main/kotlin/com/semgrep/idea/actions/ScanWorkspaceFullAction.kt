@@ -7,7 +7,7 @@ import com.semgrep.idea.lsp.custom_notifications.ScanWorkspaceParams
 class ScanWorkspaceFullAction : LspAction("Scan Workspace with Semgrep (Including Unmodified Files)") {
     override fun actionPerformed(e: AnActionEvent, servers: List<com.semgrep.idea.lsp.SemgrepLspServer>) {
         val params = ScanWorkspaceParams(full = true)
-        servers.map { it.requestExecutor.sendNotification(ScanWorkspaceNotification(it, params)) }
+        servers.map { ScanWorkspaceNotification(it, params).sendNotification() }
     }
 
 }
