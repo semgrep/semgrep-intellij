@@ -6,6 +6,12 @@ import com.intellij.util.text.SemVer
 import com.semgrep.idea.settings.AppState
 import com.semgrep.idea.settings.SemgrepPluginSettings
 import com.semgrep.idea.ui.SemgrepNotifier
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
 
 object SemgrepInstaller {
     enum class InstallOption(val binary: String, val installCommand: String) {
@@ -43,6 +49,17 @@ object SemgrepInstaller {
         process.waitFor()
         val out = process.inputStream.bufferedReader().readText().trim()
         return SemVer.parseFromText(out)
+    }
+
+    fun getMostUpToDateCliVersion(): SemVer? {
+        val client = HttpClient.newBuilder().build()
+        val request = HttpRequest.newBuilder()
+            .uri(URI.create("https://semgrep.dev/api/check-version"))
+            .build()
+        val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
+        // Can't figure out how to actually parse this to a string, not a quoted string. Oh well
+        val version = Json.parseToJsonElement(response).jsonObject.get("latest").toString().replace("\"", "")
+        return SemVer.parseFromText(version)
     }
 
     fun which(binary: String): String? {
