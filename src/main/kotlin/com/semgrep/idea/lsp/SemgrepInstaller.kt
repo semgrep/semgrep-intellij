@@ -4,7 +4,7 @@ import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.project.Project
 import com.intellij.util.text.SemVer
 import com.semgrep.idea.settings.AppState
-import com.semgrep.idea.settings.SemgrepPluginSettings
+import com.semgrep.idea.settings.SemgrepLspSettings
 import com.semgrep.idea.ui.SemgrepNotifier
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -38,8 +38,8 @@ object SemgrepInstaller {
     }
 
     fun semgrepInstalled(): Boolean {
-        val defaultPath = SemgrepPluginSettings().path
-        val state = AppState.getInstance().appSettings
+        val defaultPath = SemgrepLspSettings().path
+        val state = AppState.getInstance().lspSettings
         return state.path != defaultPath || which(defaultPath) != null
     }
 

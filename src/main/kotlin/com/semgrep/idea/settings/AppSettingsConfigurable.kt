@@ -8,24 +8,24 @@ class AppSettingsConfigurable : Configurable {
     private var settingsComponent: AppSettingsComponent? = null
 
     override fun createComponent(): JComponent? {
-        val settings = AppState.getInstance().appSettings
+        val settings = AppState.getInstance().lspSettings
         settingsComponent = AppSettingsComponent(settings)
         return settingsComponent?.getPanel()
     }
 
     override fun isModified(): Boolean {
-        return settingsComponent?.getSettings() != AppState.getInstance().appSettings
+        return settingsComponent?.getSettings() != AppState.getInstance().lspSettings
     }
 
     override fun apply() {
         val appSettingsState = AppState.getInstance()
         val newSettings = settingsComponent?.getSettings() ?: return
-        appSettingsState.appSettings = newSettings
-        settingsComponent?.setFieldValues(appSettingsState.appSettings)
+        appSettingsState.lspSettings = newSettings
+        settingsComponent?.setFieldValues(appSettingsState.lspSettings)
     }
 
     override fun reset() {
-        val settings = AppState.getInstance().appSettings
+        val settings = AppState.getInstance().lspSettings
         settingsComponent?.setFieldValues(settings)
     }
 

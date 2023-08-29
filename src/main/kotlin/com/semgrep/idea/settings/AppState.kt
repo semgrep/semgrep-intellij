@@ -5,19 +5,13 @@ import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 
-data class PluginSettings(var dismissedLoginNudge: Boolean = false, var handledInstallBanner: Boolean = false)
-data class AppStateData(
-    var appSettings: SemgrepPluginSettings = SemgrepPluginSettings(),
-    var pluginState: PluginSettings = PluginSettings()
-)
-
 @State(
     name = "com.semgrep.idea.lsp.settings.AppSettingsState",
     storages = [Storage("SemgrepSettings.xml")],
 )
 class AppState : PersistentStateComponent<AppStateData> {
-    var appSettings: SemgrepPluginSettings = SemgrepPluginSettings()
-    var pluginState: PluginSettings = PluginSettings()
+    var lspSettings: SemgrepLspSettings = SemgrepLspSettings()
+    var pluginState: PluginState = PluginState()
 
     companion object {
         fun getInstance(): AppState {
@@ -26,11 +20,11 @@ class AppState : PersistentStateComponent<AppStateData> {
     }
 
     override fun getState(): AppStateData {
-        return AppStateData(this.appSettings, this.pluginState)
+        return AppStateData(this.lspSettings, this.pluginState)
     }
 
     override fun loadState(state: AppStateData) {
-        this.appSettings = state.appSettings
+        this.lspSettings = state.appSettings
         this.pluginState = state.pluginState
     }
 
