@@ -1,10 +1,11 @@
 <!-- Plugin description -->
-# Semgrep IntelliJ extension
 
+# Semgrep IntelliJ Plugin
 
 ## Prerequisites
 
-Semgrep VS Code extension communicates with Semgrep command-line interface (CLI) to run scans. Install Semgrep CLI before you can use the VS Code extension. To install Semgrep CLI:
+Semgrep IntelliJ Plugin communicates with Semgrep command-line interface (CLI) to run scans. Install Semgrep CLI before
+you can use the IntelliJ Plugin. To install Semgrep CLI:
 
 ```sh
 # For macOS
@@ -16,7 +17,6 @@ $ python3 -m pip install semgrep
 # To try Semgrep without installation run via Docker
 $ docker run --rm -v "${PWD}:/src" returntocorp/semgrep semgrep
 ```
-
 
 ## Installation
 
@@ -43,18 +43,20 @@ You can fine-tune and customize rules to improve your scan results:
 1. Go to [Semgrep Registry](https://semgrep.dev/explore). Ensure that you are signed in.
 1. Explore the Semgrep Registry, select a rule, and then click **Add to Rule Board**.
 1. Manage rules in the [Policies](https://semgrep.dev/orgs/-/board) page.
+
 ### Language support
 
 Semgrep supports 30+ languages.
 
 | Category     | Languages                                                                                                                                                                     |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | GA           | C# · Go · Java · JavaScript · JSX · Kotlin · JSON · PHP · Python · Ruby · Scala · Terraform · TypeScript                                                                      |
 | Beta         | Rust                                                                                                                                                                          |
 | Experimental | Bash · C · C++ · Clojure · Dart · Dockerfile · Elixir · HTML · Julia · Jsonnet · Lisp · Lua · OCaml · R · Scheme · Solidity · Swift · YAML · XML · Generic (ERB, Jinja, etc.) |
 
 ## Support
 
-If you need our support, join the [Semgrep community Slack workspace](https://go.semgrep.dev/slack) and tell us about any problems you encountered.
+If you need our support, join the [Semgrep community Slack workspace](https://go.semgrep.dev/slack) and tell us about
+any problems you encountered.
 
 <!-- Plugin description end -->

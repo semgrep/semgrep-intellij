@@ -5,7 +5,7 @@ import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
 import javax.swing.JPanel
 
-class AppSettingsComponent(settings: SemgrepPluginSettings) {
+class AppSettingsComponent(settings: SemgrepLspSettings) {
     private var panel: JPanel? = null
 
     // Really we should use reflection to generate this, but I'm lazy
@@ -25,13 +25,13 @@ class AppSettingsComponent(settings: SemgrepPluginSettings) {
         return panel
     }
 
-    fun getSettings(): SemgrepPluginSettings {
+    fun getSettings(): SemgrepLspSettings {
         val traceLevelStr = traceChooser.selectedItem as String
         val traceLevel = TraceLevel.valueOf(traceLevelStr.uppercase())
-        return SemgrepPluginSettings(trace = SemgrepPluginSettings.Trace(traceLevel), path = pathTextField.text)
+        return SemgrepLspSettings(trace = SemgrepLspSettings.Trace(traceLevel), path = pathTextField.text)
     }
 
-    fun setFieldValues(settings: SemgrepPluginSettings) {
+    fun setFieldValues(settings: SemgrepLspSettings) {
         traceChooser.selectedItem = settings.trace.server.name.lowercase()
         pathTextField.text = settings.path
     }

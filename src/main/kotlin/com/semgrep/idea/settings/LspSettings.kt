@@ -1,12 +1,17 @@
 package com.semgrep.idea.settings
 
+import com.intellij.ide.plugins.PluginManager
+import com.intellij.internal.statistic.DeviceIdManager
+import com.intellij.internal.statistic.DeviceIdManager.DeviceIdToken
+import com.intellij.openapi.extensions.PluginId
+
 enum class TraceLevel {
     OFF,
     MESSAGES,
     VERBOSE,
 }
 
-data class SemgrepPluginSettings(
+data class SemgrepLspSettings(
     var trace: Trace = Trace(),
     var path: String = "semgrep",
     var ignoreCliVersion: Boolean = false,
@@ -61,6 +66,12 @@ data class SemgrepPluginSettings(
     }
 
     data class Metrics(
+        var machineId: String = DeviceIdManager.getOrGenerateId(object : DeviceIdToken {}, "Semgrep"),
+        var isNewAppInstall: Boolean = true,
+        var extensionVersion: String = PluginManager.getInstance()
+            .findEnabledPlugin(PluginId.findId("com.semgrep.idea")!!)?.version!!,
+        var extenstionType: String = "intellij",
+        // sessionId cannot be generated from intellij easily
         var enabled: Boolean = true,
     )
 }

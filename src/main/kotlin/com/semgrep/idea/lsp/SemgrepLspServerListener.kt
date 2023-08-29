@@ -9,11 +9,12 @@ import com.semgrep.idea.ui.SemgrepNotifier
 import org.eclipse.lsp4j.InitializeResult
 
 class SemgrepLspServerListener(val project: Project) : LspServerListener {
-    override fun serverInitialized(params: InitializeResult) {
-        super.serverInitialized(params)
+
+    fun checkNudge() {
         val settings = AppState.getInstance()
         val servers = SemgrepLspServer.getInstances(project)
         val first = servers.firstOrNull()
+        // Check if we've bugged them about logging in
         if (first != null && !settings.pluginState.dismissedLoginNudge) {
             val loginStatusRequest = LoginStatusRequest(first)
             loginStatusRequest.sendRequest().handle({ it, _ ->
@@ -21,16 +22,34 @@ class SemgrepLspServerListener(val project: Project) : LspServerListener {
                     SemgrepNotifier(project).notifyLoginNudge()
                 }
             })
-            val current = SemgrepInstaller.getCliVersion()
-            val needed = SemVer.parseFromText(SemgrepLspServer.MIN_SEMGREP_VERSION)
-            val latest = SemgrepInstaller.getMostUpToDateCliVersion()
-            if (current != null) {
-                if (needed != null && current < needed) {
-                    SemgrepNotifier(project).notifyUpdateNeeded(needed, current)
-                } else if (latest != null && current < latest) {
-                    SemgrepNotifier(project).notifyUpdateAvailable(current, latest)
-                }
+
+        }
+    }
+
+    fun checkVersion() {
+        val current = SemgrepInstaller.getCliVersion()
+        val needed = SemVer.parseFromText(SemgrepLspServer.MIN_SEMGREP_VERSION)
+        val latest = SemgrepInstaller.getMostUpToDateCliVersion()
+        if (current != null) {
+            if (needed != null && current < needed) {
+                SemgrepNotifier(project).notifyUpdateNeeded(needed, current)
+            } else if (latest != null && current < latest) {
+                SemgrepNotifier(project).notifyUpdateAvailable(current, latest)
             }
         }
+    }
+
+    fun checkNewInstall() {
+        val settings = AppState.getInstance()
+        if (settings.lspSettings.metrics.isNewAppInstall) {
+            settings.lspSettings.metrics.isNewAppInstall = false
+        }
+    }
+
+    override fun serverInitialized(params: InitializeResult) {
+        super.serverInitialized(params)
+        checkNudge()
+        checkVersion()
+        checkNewInstall()
     }
 }
