@@ -55,6 +55,6 @@ Semgrep supports 30+ languages.
 
 ## Support
 
-If you need our support, join the [Semgrep community Slack workspace](http://go.semgrep.dev/slack) and tell us about any problems you encountered.
+If you need our support, join the [Semgrep community Slack workspace](https://go.semgrep.dev/slack) and tell us about any problems you encountered.
 
 <!-- Plugin description end -->
