@@ -2,6 +2,7 @@ package com.semgrep.idea.lsp
 
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.SystemInfo
 import com.intellij.util.text.SemVer
 import com.semgrep.idea.settings.AppState
 import com.semgrep.idea.settings.SemgrepLspSettings
@@ -70,6 +71,10 @@ object SemgrepInstaller {
         val result = process.inputStream.bufferedReader().readLine()
 
         return if (result == "") null else result
+    }
+
+    fun isWindows():Boolean{
+        return SystemInfo.isWindows
     }
 
     fun getInstallOptions(): List<InstallOption> {
