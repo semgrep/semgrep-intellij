@@ -47,6 +47,20 @@ class SemgrepNotifier(private val project: Project) {
             }
     }
 
+    fun notifyWindowsNotSupported(){
+        val message = "Semgrep is not supported on Windows currently, please use WSL or a VM"
+
+        NotificationGroupManager
+            .getInstance()
+            .getNotificationGroup("Install Group")
+            .createNotification(
+                message,
+                NotificationType.ERROR
+            ).apply {
+                notify(project)
+            }
+    }
+
     fun notifyUpdateNeeded(needed: SemVer, current: SemVer) {
         val message =
             "The Semgrep Extension requires a Semgrep CLI version $needed, the current installed version is $current, please update"
