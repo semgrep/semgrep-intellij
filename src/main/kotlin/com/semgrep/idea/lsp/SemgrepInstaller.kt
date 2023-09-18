@@ -73,7 +73,7 @@ object SemgrepInstaller {
         return if (result == "") null else result
     }
 
-    fun isWindows():Boolean{
+    fun isWindows(): Boolean {
         return SystemInfo.isWindows
     }
 

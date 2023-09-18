@@ -1,10 +1,8 @@
 package com.semgrep.idea.settings
 
 import com.intellij.ide.plugins.PluginManager
-import com.intellij.internal.statistic.DeviceIdManager
-import com.intellij.internal.statistic.DeviceIdManager.DeviceIdToken
 import com.intellij.openapi.extensions.PluginId
-import java.util.UUID
+import java.util.*
 
 enum class TraceLevel {
     OFF,

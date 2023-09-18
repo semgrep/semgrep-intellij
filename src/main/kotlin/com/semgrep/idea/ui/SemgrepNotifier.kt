@@ -47,7 +47,7 @@ class SemgrepNotifier(private val project: Project) {
             }
     }
 
-    fun notifyWindowsNotSupported(){
+    fun notifyWindowsNotSupported() {
         val message = "Semgrep is not supported on Windows currently, please use WSL or a VM"
 
         NotificationGroupManager

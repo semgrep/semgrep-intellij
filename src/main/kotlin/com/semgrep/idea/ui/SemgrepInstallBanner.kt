@@ -40,7 +40,7 @@ class SemgrepInstallBannerProvider : EditorNotifications.Provider<SemgrepInstall
         if (SemgrepInstaller.semgrepInstalled() || AppState.getInstance().pluginState.handledInstallBanner) {
             return null
         }
-        if (SemgrepInstaller.isWindows()){
+        if (SemgrepInstaller.isWindows()) {
             SemgrepNotifier(project).notifyWindowsNotSupported()
             return null
         }

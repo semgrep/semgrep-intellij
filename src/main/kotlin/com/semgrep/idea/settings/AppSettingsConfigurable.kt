@@ -14,19 +14,15 @@ class AppSettingsConfigurable : Configurable {
     }
 
     override fun isModified(): Boolean {
-        return settingsComponent?.getSettings() != AppState.getInstance().lspSettings
+        return settingsComponent?.getPanel()?.isModified() ?: false
     }
 
     override fun apply() {
-        val appSettingsState = AppState.getInstance()
-        val newSettings = settingsComponent?.getSettings() ?: return
-        appSettingsState.lspSettings = newSettings
-        settingsComponent?.setFieldValues(appSettingsState.lspSettings)
+        settingsComponent?.getPanel()?.apply()
     }
 
     override fun reset() {
-        val settings = AppState.getInstance().lspSettings
-        settingsComponent?.setFieldValues(settings)
+        settingsComponent?.getPanel()?.reset()
     }
 
     override fun getDisplayName(): String {
