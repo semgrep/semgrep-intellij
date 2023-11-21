@@ -11,10 +11,10 @@ import java.util.concurrent.CompletableFuture
 interface SemgrepLanguageServer : LanguageServer {
     // Requests
     @JsonRequest("semgrep/login")
-    fun login(): CompletableFuture<LoginResult>
+    fun login(params:List<Void> = emptyList()): CompletableFuture<LoginResult>
 
     @JsonRequest("semgrep/loginStatus")
-    fun loginStatus(): CompletableFuture<LoginStatusResult>
+    fun loginStatus(params:List<Void> = emptyList()): CompletableFuture<LoginStatusResult>
 
     // Notifications
     @JsonNotification("semgrep/loginFinish")

@@ -17,6 +17,7 @@ data class SemgrepLspSettings(
     var scan: Scan = Scan(),
     var doHover: Boolean = false,
     var metrics: Metrics = Metrics(),
+    var pro_intrafile: Boolean = false,
 ) {
 
     data class Trace(var server: TraceLevel = TraceLevel.OFF)
@@ -69,7 +70,7 @@ data class SemgrepLspSettings(
         var isNewAppInstall: Boolean = true,
         var extensionVersion: String = PluginManager.getInstance()
             .findEnabledPlugin(PluginId.findId("com.semgrep.idea")!!)?.version!!,
-        var extenstionType: String = "intellij",
+        var extensionType: String = "intellij",
         // sessionId cannot be generated from intellij easily
         var enabled: Boolean = true,
     )

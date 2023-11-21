@@ -6,6 +6,8 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.lsp.api.LspServerListener
 import com.intellij.platform.lsp.api.ProjectWideLspServerDescriptor
 import com.semgrep.idea.settings.AppState
+import com.semgrep.idea.settings.SemgrepLspSettings
+import com.semgrep.idea.settings.TraceLevel
 import org.eclipse.lsp4j.services.LanguageServer
 
 class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescriptor(project, "Semgrep") {
@@ -16,6 +18,9 @@ class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescrip
             withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.CONSOLE)
             withCharset(Charsets.UTF_8)
             addParameter("lsp")
+            if (settingState.trace.server == TraceLevel.VERBOSE){
+                addParameter("--debug")
+            }
         }
     }
 
