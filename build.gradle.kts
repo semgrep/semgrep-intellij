@@ -98,7 +98,15 @@ tasks {
     }
     prepareSandbox {
         doLast {
-            downloadLspJs()
+            exec {
+                commandLine(
+                    "./download-lspjs.sh",
+                    "Main.bc.js",
+                    "language-server-wasm.js",
+                    "semgrep-lsp-bindings.js",
+                    "semgrep-lsp.js"
+                )
+            }
             copy {
                 from("${project.projectDir}/lspjs")
                 into("${destinationDir.path}/${intellij.pluginName.get()}/lspjs")
@@ -133,13 +141,5 @@ tasks {
 }
 
 fun downloadLspJs() {
-    exec {
-        commandLine(
-            "./download-lspjs.sh",
-            "Main.bc.js",
-            "language-server-wasm.js",
-            "semgrep-lsp-bindings.js",
-            "semgrep-lsp.js"
-        )
-    }
+
 }
