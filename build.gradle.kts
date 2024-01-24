@@ -97,6 +97,7 @@ tasks {
         }
     }
     prepareSandbox {
+        notCompatibleWithConfigurationCache("Uses project copy")
         doLast {
             exec {
                 commandLine(
