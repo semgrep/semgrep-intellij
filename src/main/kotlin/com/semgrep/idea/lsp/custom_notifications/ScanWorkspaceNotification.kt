@@ -4,10 +4,10 @@ import com.intellij.platform.lsp.api.requests.LspClientNotification
 
 data class ScanWorkspaceParams(val full: Boolean)
 class ScanWorkspaceNotification(
-    private val server: com.semgrep.idea.lsp.SemgrepLspServer,
+    private val semgrepServer: com.semgrep.idea.lsp.SemgrepLspServer,
     private val params: ScanWorkspaceParams
-) : LspClientNotification(server) {
+) : LspClientNotification(semgrepServer.server) {
     override fun sendNotification() {
-        server.lsp4jServer.scanWorkspace(params)
+        semgrepServer.lsp4jServer.scanWorkspace(params)
     }
 }

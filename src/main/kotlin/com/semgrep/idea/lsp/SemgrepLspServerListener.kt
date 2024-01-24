@@ -1,6 +1,7 @@
 package com.semgrep.idea.lsp
 
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.platform.lsp.api.LspServerListener
 import com.intellij.util.text.SemVer
 import com.semgrep.idea.lsp.custom_requests.LoginStatusRequest
@@ -49,6 +50,9 @@ class SemgrepLspServerListener(val project: Project) : LspServerListener {
 
     override fun serverInitialized(params: InitializeResult) {
         super.serverInitialized(params)
+        SemgrepLspServer.getInstances(project).forEach {
+            project.messageBus.connect().subscribe(VirtualFileManager.VFS_CHANGES, FileSaveManager(it))
+        }
         checkNudge()
         checkVersion()
         checkNewInstall()

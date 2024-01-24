@@ -37,7 +37,7 @@ intellij {
     type = properties("platformType")
 
     // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
-    plugins = properties("platformPlugins").map { it.split(',').map(String::trim).filter(String::isNotEmpty) }
+    plugins.set(listOf("JavaScript"))
 }
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
@@ -96,6 +96,15 @@ tasks {
             }
         }
     }
+    prepareSandbox {
+        doLast {
+            downloadLspJs()
+            copy {
+                from("${project.projectDir}/lspjs")
+                into("${destinationDir.path}/${intellij.pluginName.get()}/lspjs")
+            }
+        }
+    }
 
     // Configure UI tests plugin
     // Read more: https://github.com/JetBrains/intellij-ui-test-robot
@@ -120,5 +129,17 @@ tasks {
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
         channels =
             properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
+    }
+}
+
+fun downloadLspJs() {
+    exec {
+        commandLine(
+            "./download-lspjs.sh",
+            "Main.bc.js",
+            "language-server-wasm.js",
+            "semgrep-lsp-bindings.js",
+            "semgrep-lsp.js"
+        )
     }
 }
