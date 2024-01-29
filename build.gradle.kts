@@ -140,7 +140,3 @@ tasks {
             properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
     }
 }
-
-fun downloadLspJs() {
-
-}
