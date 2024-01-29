@@ -7,7 +7,7 @@ import com.intellij.platform.lsp.api.LspServerManager
 
 class SemgrepLspServer(val server: LspServer) {
     companion object {
-        val MIN_SEMGREP_VERSION = "1.21.0"
+        const val MIN_SEMGREP_VERSION = "1.21.0"
 
         // These should probably be split off into SemgrepLspManager or something
         private fun getManager(project: Project): LspServerManager {
