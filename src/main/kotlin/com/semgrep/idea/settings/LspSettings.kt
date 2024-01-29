@@ -19,7 +19,7 @@ data class SemgrepLspSettings(
     var metrics: Metrics = Metrics(),
     var pro_intrafile: Boolean = false,
     var useJS: Boolean = System.getProperty("os.name").lowercase(Locale.getDefault()).contains("win"),
-    var stackSizeJS: Int = 1000 * 1000,
+    var stackSizeJS: Int = 1024 * 1024,
     var heapSizeJS: Int = 4096,
 ) {
 
