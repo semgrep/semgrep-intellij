@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.2.0] - 2024-01-30
+
+- Fixed issue where saving would not trigger rescan
+- Now compatible with 2024+ IntelliJ Platform versions
+- Windows support added via LSP.js
+
 ## [0.1.4] - 2023-09-18
 
 - Changelog update - `v0.1.3` by @github-actions in https://github.com/returntocorp/semgrep-intellij/pull/13
