@@ -9,6 +9,7 @@ import org.eclipse.lsp4j.services.LanguageServer
 import java.util.concurrent.CompletableFuture
 
 interface SemgrepLanguageServer : LanguageServer {
+
     // Requests
     @JsonRequest("semgrep/login")
     fun login(params:List<Void> = emptyList()): CompletableFuture<LoginResult>
@@ -32,4 +33,5 @@ interface SemgrepLanguageServer : LanguageServer {
 
     @JsonNotification("semgrep/refreshRules")
     fun refreshRules(params: List<Void> = emptyList())
+
 }

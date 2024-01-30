@@ -37,7 +37,7 @@ intellij {
     type = properties("platformType")
 
     // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
-    plugins = properties("platformPlugins").map { it.split(',').map(String::trim).filter(String::isNotEmpty) }
+    plugins.set(listOf("JavaScript"))
 }
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
@@ -93,6 +93,24 @@ tasks {
                         .withEmptySections(false),
                     Changelog.OutputType.HTML,
                 )
+            }
+        }
+    }
+    prepareSandbox {
+        notCompatibleWithConfigurationCache("Uses project copy")
+        doLast {
+            exec {
+                commandLine(
+                    "./download-lspjs.sh",
+                    "Main.bc.js",
+                    "language-server-wasm.js",
+                    "semgrep-lsp-bindings.js",
+                    "semgrep-lsp.js"
+                )
+            }
+            copy {
+                from("${project.projectDir}/lspjs")
+                into("${destinationDir.path}/${intellij.pluginName.get()}/lspjs")
             }
         }
     }

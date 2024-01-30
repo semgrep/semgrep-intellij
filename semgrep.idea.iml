@@ -3,13 +3,14 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/kotlin" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/kotlin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/lspjs" isTestSource="false" generated="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="TEST" name="KotlinJavaRuntime" level="project" />
-    <orderEntry type="module" module-name="main" scope="TEST" />
-    <orderEntry type="module-library" scope="TEST">
+    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
+    <orderEntry type="module-library">
       <library>
         <ANNOTATIONS>
           <root url="jar://$MAVEN_REPOSITORY$/com/jetbrains/intellij/idea/ideaIU/2023.2/ideaIU-2023.2-annotations.zip!/" />
@@ -60,5 +61,6 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Gradle: unzipped.com.jetbrains.plugins:javascript-impl:unzipped.com.jetbrains.plugins:ideaIU-IU-232.8660.185-withSources" level="project" />
   </component>
 </module>

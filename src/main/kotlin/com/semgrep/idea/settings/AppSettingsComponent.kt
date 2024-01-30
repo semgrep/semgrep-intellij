@@ -1,33 +1,10 @@
 package com.semgrep.idea.settings
 
-import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogPanel
-import com.intellij.ui.components.JBCheckBox
-import com.intellij.ui.components.JBTextField
 import com.intellij.ui.dsl.builder.*
 
 class AppSettingsComponent(settings: SemgrepLspSettings) {
     private var panel: DialogPanel? = null
-
-    // Really we should use reflection to generate this, but I'm lazy
-    private val traceChooser = ComboBox(arrayOf("off", "messages", "verbose"))
-    private val pathTextField = JBTextField()
-    private val ignoreCliVersion = JBCheckBox()
-    private val doHover = JBCheckBox()
-
-    // Scan Settings
-    private val configuration = JBTextField()
-    private val exclude = JBTextField()
-    private val include = JBTextField()
-    private val jobs = JBTextField("1")
-    private val maxMemory = JBTextField("0")
-    private val maxTargetBytes = JBTextField("1000000")
-    private val timeout = JBTextField("30")
-    private val timeoutThreshold = JBTextField("3")
-    private val onlyGitDirty = JBCheckBox()
-
-    // Metric Settings
-    private val metricsEnabled = JBCheckBox()
     private var lspSettings: SemgrepLspSettings = AppState.getInstance().lspSettings
 
     init {
@@ -117,6 +94,26 @@ class AppSettingsComponent(settings: SemgrepLspSettings) {
                         .bindSelected(lspSettings.metrics::enabled)
                         .comment("Enable metrics reporting")
                 }
+            }
+            group("Javascript") {
+                row {
+                    checkBox("Use JS")
+                        .bindSelected(lspSettings::useJS)
+                        .comment("Use the pure Javascript version of the extension. Warning, this is experimental and may break or have performance issues")
+                }
+                row("JS Stack Size") {
+                    spinner(0..5 * 1000 * 1000)
+                        .bindIntValue(lspSettings::stackSizeJS)
+                        .comment("Maximum stack size (in KB) for the Javascript version of the extension. Warning, this is experimental and may break or have performance issues")
+
+                }
+
+                row("JS Heap Size") {
+                    spinner(0..4096 * 4)
+                        .bindIntValue(lspSettings::heapSizeJS)
+                        .comment("Maximum heap size (in MB) for the Javascript version of the extension. Increase if the extension crashes while downloading rules. Warning, this is experimental and may break or have performance issues.")
+                }
+
             }
         }
 

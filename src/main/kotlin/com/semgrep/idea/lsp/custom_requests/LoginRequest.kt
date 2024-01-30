@@ -5,13 +5,13 @@ import java.util.concurrent.CompletableFuture
 
 data class LoginResult(val url: String, val sessionId: String)
 
-class LoginRequest(private val server: com.semgrep.idea.lsp.SemgrepLspServer) :
-    LspRequest<LoginResult, LoginResult>(server) {
+class LoginRequest(private val semgrepServer: com.semgrep.idea.lsp.SemgrepLspServer) :
+    LspRequest<LoginResult, LoginResult>(semgrepServer.server) {
     override fun preprocessResponse(serverResponse: LoginResult): LoginResult {
         return serverResponse
     }
 
     override fun sendRequest(): CompletableFuture<LoginResult> {
-        return server.lsp4jServer.login()
+        return semgrepServer.lsp4jServer.login()
     }
 }
