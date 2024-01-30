@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+## [0.1.5] - 2023-11-28
+
+- Fix settings sent + custom commands by @ajbt200128 in https://github.com/semgrep/semgrep-intellij/pull/21
+- Changelog update - `v0.1.4` by @github-actions in https://github.com/semgrep/semgrep-intellij/pull/16
+- Bump org.jetbrains.intellij from 1.15.0 to 1.16.0 by @dependabot in https://github.com/semgrep/semgrep-intellij/pull/17
+- Bump version by @ajbt200128 in https://github.com/semgrep/semgrep-intellij/pull/26
+
 ## [0.1.4] - 2023-09-18
 
 - Changelog update - `v0.1.3` by @github-actions in https://github.com/returntocorp/semgrep-intellij/pull/13
@@ -19,6 +26,7 @@
 - Version Bump by @ajbt200128 in https://github.com/returntocorp/semgrep-intellij/pull/12
 - @dependabot made their first contribution in https://github.com/returntocorp/semgrep-intellij/pull/2
 
-[Unreleased]: https://github.com/returntocorp/semgrep-intellij/compare/v0.1.4...HEAD
+[Unreleased]: https://github.com/returntocorp/semgrep-intellij/compare/v0.1.5...HEAD
+[0.1.5]: https://github.com/returntocorp/semgrep-intellij/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/returntocorp/semgrep-intellij/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/returntocorp/semgrep-intellij/commits/v0.1.3
