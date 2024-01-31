@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.2.2] - 2024-01-31
+
+- Fix release process again by @ajbt200128 in https://github.com/semgrep/semgrep-intellij/pull/40
+- Fix release process again again by @ajbt200128 in https://github.com/semgrep/semgrep-intellij/pull/41
+
 ## [0.2.0] - 2024-01-30
 
 - Fixed issue where saving would not trigger rescan
@@ -25,6 +30,8 @@
 - Version Bump by @ajbt200128 in https://github.com/returntocorp/semgrep-intellij/pull/12
 - @dependabot made their first contribution in https://github.com/returntocorp/semgrep-intellij/pull/2
 
-[Unreleased]: https://github.com/returntocorp/semgrep-intellij/compare/v0.1.4...HEAD
+[Unreleased]: https://github.com/returntocorp/semgrep-intellij/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/returntocorp/semgrep-intellij/compare/v0.2.0...v0.2.2
+[0.2.0]: https://github.com/returntocorp/semgrep-intellij/compare/v0.1.4...v0.2.0
 [0.1.4]: https://github.com/returntocorp/semgrep-intellij/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/returntocorp/semgrep-intellij/commits/v0.1.3
