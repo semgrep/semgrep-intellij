@@ -15,12 +15,14 @@ class SemgrepInstallBannerProvider : EditorNotifications.Provider<SemgrepInstall
 
     class SemgrepInstallBanner(project: Project) : EditorNotificationPanel(Status.Error) {
         init {
-            val installOptions = SemgrepInstaller.getInstallOptions()
-            installOptions.forEach {
-                createActionLabel("Install with ${it.name.lowercase()}") {
-                    it.install(project)
-                    AppState.getInstance().pluginState.handledInstallBanner = true
-                    EditorNotifications.getInstance(project).updateAllNotifications()
+            if (!SemgrepInstaller.isWindows()) {
+                val installOptions = SemgrepInstaller.getInstallOptions()
+                installOptions.forEach {
+                    createActionLabel("Install with ${it.name.lowercase()}") {
+                        it.install(project)
+                        AppState.getInstance().pluginState.handledInstallBanner = true
+                        EditorNotifications.getInstance(project).updateAllNotifications()
+                    }
                 }
             }
             createActionLabel("Ignore Extension") {
@@ -28,6 +30,7 @@ class SemgrepInstallBannerProvider : EditorNotifications.Provider<SemgrepInstall
                 EditorNotifications.getInstance(project).updateAllNotifications()
 
             }
+
             text("Semgrep is not installed")
         }
     }
@@ -37,7 +40,7 @@ class SemgrepInstallBannerProvider : EditorNotifications.Provider<SemgrepInstall
         fileEditor: FileEditor,
         project: Project
     ): SemgrepInstallBanner? {
-        if (SemgrepInstaller.semgrepInstalled() || AppState.getInstance().pluginState.handledInstallBanner) {
+        if (SemgrepInstaller.isWindows() || SemgrepInstaller.semgrepInstalled() || AppState.getInstance().pluginState.handledInstallBanner) {
             return null
         }
         if (SemgrepInstaller.isWindows()) {

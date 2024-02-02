@@ -28,10 +28,11 @@ class SemgrepLspServerListener(val project: Project) : LspServerListener {
     }
 
     fun checkVersion() {
+        val settings = AppState.getInstance()
+        if (settings.lspSettings.useJS) return
         val current = SemgrepInstaller.getCliVersion()
         val needed = SemVer.parseFromText(SemgrepLspServer.MIN_SEMGREP_VERSION)
         val latest = SemgrepInstaller.getMostUpToDateCliVersion()
-        val settings = AppState.getInstance()
         if (current != null && !settings.lspSettings.ignoreCliVersion) {
             if (needed != null && current < needed) {
                 SemgrepNotifier(project).notifyUpdateNeeded(needed, current)
