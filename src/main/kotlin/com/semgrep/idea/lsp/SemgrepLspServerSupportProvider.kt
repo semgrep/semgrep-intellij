@@ -12,7 +12,7 @@ class SemgrepLspServerSupportProvider : LspServerSupportProvider {
         serverStarter: LspServerSupportProvider.LspServerStarter
     ) {
         val settingState = AppState.getInstance().lspSettings
-        val installed = if (settingState.useJS) true else SemgrepInstaller.semgrepInstalled()
+        val installed = settingState.useJS || SemgrepInstaller.semgrepInstalled()
         if (installed || AppState.getInstance().pluginState.handledInstallBanner) {
             serverStarter.ensureServerStarted(SemgrepLspServerDescriptor(project))
         }
