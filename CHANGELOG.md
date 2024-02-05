@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.2.3] - 2024-02-05
+
+- Fix login command, and lsp.js on windows
+
 ## [0.2.2] - 2024-01-31
 
 - Fix release process again by @ajbt200128 in https://github.com/semgrep/semgrep-intellij/pull/40
