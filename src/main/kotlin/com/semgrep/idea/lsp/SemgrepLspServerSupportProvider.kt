@@ -11,7 +11,8 @@ class SemgrepLspServerSupportProvider : LspServerSupportProvider {
         file: VirtualFile,
         serverStarter: LspServerSupportProvider.LspServerStarter
     ) {
-        val installed = SemgrepInstaller.semgrepInstalled()
+        val settingState = AppState.getInstance().lspSettings
+        val installed = settingState.useJS || SemgrepInstaller.semgrepInstalled()
         if (installed || AppState.getInstance().pluginState.handledInstallBanner) {
             serverStarter.ensureServerStarted(SemgrepLspServerDescriptor(project))
         }
