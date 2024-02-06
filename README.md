@@ -1,6 +1,6 @@
 <!-- Plugin description -->
 
-# Semgrep IntelliJ Plugin
+# Semgrep Plugin for IntelliJ-based IDEs
 
 ## Prerequisites
 
