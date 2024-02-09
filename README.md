@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-Semgrep IntelliJ Plugin communicates with Semgrep command-line interface (CLI) to run scans. Install Semgrep CLI before
+Semgrep Plugin for IntelliJ-based IDEs communicates with Semgrep command-line interface (CLI) to run scans. Install Semgrep CLI before
 you can use the IntelliJ Plugin. To install Semgrep CLI:
 
 ```sh
