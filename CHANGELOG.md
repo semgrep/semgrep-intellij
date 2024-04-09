@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.2.4] - 2024-04-09
+
+- Plugin does not freeze on repeat login
+
 ## [0.2.3] - 2024-02-05
 
 - Fix login command, and lsp.js on windows
