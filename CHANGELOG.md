@@ -4,6 +4,7 @@
 
 ## [Unreleased]
 
+
 ## [0.2.4] - 2024-04-09
 
 - Plugin does not freeze on repeat login
