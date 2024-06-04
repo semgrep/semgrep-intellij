@@ -1,6 +1,7 @@
 package com.semgrep.idea.lsp
 
 import com.intellij.execution.configurations.GeneralCommandLine
+import com.intellij.execution.process.OSProcessHandler
 import com.intellij.javascript.nodejs.interpreter.NodeCommandLineConfigurator
 import com.intellij.javascript.nodejs.interpreter.NodeJsInterpreterManager
 import com.intellij.lang.javascript.service.JSLanguageServiceUtil
@@ -11,6 +12,8 @@ import com.intellij.platform.lsp.api.ProjectWideLspServerDescriptor
 import com.semgrep.idea.settings.AppState
 import com.semgrep.idea.settings.SemgrepLspSettings
 import com.semgrep.idea.settings.TraceLevel
+import com.semgrep.idea.telemetry.SentryProcessListener
+import com.semgrep.idea.telemetry.SentryWrapper
 import org.eclipse.lsp4j.services.LanguageServer
 
 class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescriptor(project, "Semgrep") {
@@ -63,5 +66,18 @@ class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescrip
         return AppState.getInstance().lspSettings
     }
 
+    override fun startServerProcess(): OSProcessHandler {
+        // wrap process starting with Sentry since it can fail
+        val handler = SentryWrapper.getInstance().withSentry {
+            val startingCommandLine = createCommandLine()
+            val handler = OSProcessHandler(startingCommandLine)
+            // add process listener to capture errors when process terminates
+            handler.addProcessListener(SentryProcessListener())
+            LOG.info("$this: starting LSP server: $startingCommandLine")
+            return@withSentry handler
+        }
+        return handler
+
+    }
     override val lspServerListener: LspServerListener = SemgrepLspServerListener(project)
 }

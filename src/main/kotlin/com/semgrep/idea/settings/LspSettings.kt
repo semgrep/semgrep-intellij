@@ -23,6 +23,33 @@ data class SemgrepLspSettings(
     var heapSizeJS: Int = 4096,
 ) {
 
+    fun toFlatMap(): Map<String, String> {
+        return mapOf(
+            "trace.server" to trace.server.name,
+            "path" to path,
+            "ignoreCliVersion" to ignoreCliVersion.toString(),
+            "scan.configuration" to scan.configuration.joinToString(","),
+            "scan.exclude" to scan.exclude.joinToString(","),
+            "scan.include" to scan.include.joinToString(","),
+            "scan.jobs" to scan.jobs.toString(),
+            "scan.maxMemory" to scan.maxMemory.toString(),
+            "scan.maxTargetBytes" to scan.maxTargetBytes.toString(),
+            "scan.timeout" to scan.timeout.toString(),
+            "scan.timeoutThreshold" to scan.timeoutThreshold.toString(),
+            "scan.onlyGitDirty" to scan.onlyGitDirty.toString(),
+            "doHover" to doHover.toString(),
+            "metrics.machineId" to metrics.machineId,
+            "metrics.isNewAppInstall" to metrics.isNewAppInstall.toString(),
+            "metrics.extensionVersion" to metrics.extensionVersion,
+            "metrics.extensionType" to metrics.extensionType,
+            "metrics.enabled" to metrics.enabled.toString(),
+            "pro_intrafile" to pro_intrafile.toString(),
+            "useJS" to useJS.toString(),
+            "stackSizeJS" to stackSizeJS.toString(),
+            "heapSizeJS" to heapSizeJS.toString(),
+        )
+    }
+
     data class Trace(var server: TraceLevel = TraceLevel.OFF)
     data class Scan(
         var configuration: Array<String> = arrayOf(),

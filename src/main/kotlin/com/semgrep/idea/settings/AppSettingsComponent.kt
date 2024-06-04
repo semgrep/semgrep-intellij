@@ -5,7 +5,7 @@ import com.intellij.ui.dsl.builder.*
 
 class AppSettingsComponent(settings: SemgrepLspSettings) {
     private var panel: DialogPanel? = null
-    private var lspSettings: SemgrepLspSettings = AppState.getInstance().lspSettings
+    private var lspSettings: SemgrepLspSettings = settings
 
     init {
         panel = panel {
@@ -21,12 +21,12 @@ class AppSettingsComponent(settings: SemgrepLspSettings) {
                         .comment("Path to the semgrep executable.")
                 }
                 row {
-                    checkBox("Ignore Cli Version")
+                    checkBox("Ignore cli version")
                         .bindSelected(lspSettings::ignoreCliVersion)
                         .comment("Ignore CLI Version, and enable all extension features (Warning: this is mainly for extension development, and can break things if enabled!)")
                 }
                 row {
-                    checkBox("Do Hover")
+                    checkBox("Do hover")
                         .bindSelected(lspSettings::doHover)
                         .comment("Enable hovering for AST node viewing (requires restart)")
                 }
@@ -83,7 +83,7 @@ class AppSettingsComponent(settings: SemgrepLspSettings) {
                         .comment("Maximum number of rules that can timeout on a file before the file is skipped. If set to 0 will not have limit. Defaults to 3.")
                 }
                 row {
-                    checkBox("Only Git Dirty")
+                    checkBox("Only git dirty")
                         .bindSelected(lspSettings.scan::onlyGitDirty)
                         .comment("Only scan lines changed since the last commit")
                 }
