@@ -56,6 +56,8 @@ class SentryWrapper {
             "isNewAppInstall" to appState.lspSettings.metrics.isNewAppInstall,
             "extensionVersion" to appState.lspSettings.metrics.extensionVersion,
             "loggedIn" to appState.pluginState.loggedIn,
+            "jsInterpreterVersion" to appState.state.nodeJsInterpreter?.cachedVersion.toString(),
+            "jsInterpreterName" to appState.state.nodeJsInterpreter?.referenceName
         )
         val flatMap = appState.lspSettings.toFlatMap().filter { (t, _) ->
             SKIP_FIELDS.none { t.matches(it.toRegex()) }

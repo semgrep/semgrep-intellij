@@ -3,7 +3,6 @@ package com.semgrep.idea.lsp
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.execution.process.OSProcessHandler
 import com.intellij.javascript.nodejs.interpreter.NodeCommandLineConfigurator
-import com.intellij.javascript.nodejs.interpreter.NodeJsInterpreterManager
 import com.intellij.lang.javascript.service.JSLanguageServiceUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
@@ -20,7 +19,9 @@ class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescrip
     override val lsp4jServerClass: Class<out LanguageServer> = SemgrepLanguageServer::class.java
 
     fun getLspJSCommandLine(settingState: SemgrepLspSettings): GeneralCommandLine {
-        val interpreter = NodeJsInterpreterManager.getInstance(project).interpreter!!
+        // We can assume that the interpreter is not null because we check if it's installed before starting the server
+        val interpreter = SemgrepInstaller.getNodeInterpreter(project)!!
+        AppState.getInstance().state.nodeJsInterpreter = interpreter
         val lsp = JSLanguageServiceUtil.getPluginDirectory(javaClass, "lspjs/dist/semgrep-lsp.js")!!
 
         return GeneralCommandLine().apply {

@@ -88,4 +88,18 @@ class SemgrepNotifier(private val project: Project) {
                 notify(project)
             }
     }
+
+    fun notifyJSInterpreterNeeded() {
+        val message = "Node.js interpreter is not configured, please configure it in the settings"
+
+        NotificationGroupManager
+            .getInstance()
+            .getNotificationGroup("Install Group")
+            .createNotification(
+                message,
+                NotificationType.ERROR
+            ).apply {
+                notify(project)
+            }
+    }
 }

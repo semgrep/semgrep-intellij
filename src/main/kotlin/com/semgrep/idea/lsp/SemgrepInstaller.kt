@@ -1,6 +1,8 @@
 package com.semgrep.idea.lsp
 
 import com.intellij.execution.configurations.GeneralCommandLine
+import com.intellij.javascript.nodejs.interpreter.NodeJsInterpreter
+import com.intellij.javascript.nodejs.interpreter.NodeJsInterpreterManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.SystemInfo
 import com.intellij.util.text.SemVer
@@ -81,5 +83,14 @@ object SemgrepInstaller {
         return InstallOption.values().filter { it.isInstalled() }
     }
 
+    fun getNodeInterpreter(project: Project): NodeJsInterpreter? {
+        val interpreter = NodeJsInterpreterManager.getInstance(project).interpreter
+        if (interpreter == null) {
+            SemgrepNotifier(project).notifyJSInterpreterNeeded()
+            return null
+        }
+        return interpreter
+
+    }
 
 }

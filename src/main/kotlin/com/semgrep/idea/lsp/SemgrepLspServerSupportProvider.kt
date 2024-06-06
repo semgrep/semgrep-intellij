@@ -17,7 +17,8 @@ class SemgrepLspServerSupportProvider : LspServerSupportProvider {
         sentry.init()
         // checking if semgrep is installed has failed before... so let's wrap it with Sentry
         sentry.withSentry {
-            val installed = settingState.useJS || SemgrepInstaller.semgrepInstalled()
+            val installed =
+                (settingState.useJS && SemgrepInstaller.getNodeInterpreter(project) != null) || SemgrepInstaller.semgrepInstalled()
             if (installed || AppState.getInstance().pluginState.handledInstallBanner) {
                 serverStarter.ensureServerStarted(SemgrepLspServerDescriptor(project))
             }
