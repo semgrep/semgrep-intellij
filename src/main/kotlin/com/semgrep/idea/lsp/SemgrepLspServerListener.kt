@@ -3,7 +3,6 @@ package com.semgrep.idea.lsp
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.platform.lsp.api.LspServerListener
-import com.intellij.util.text.SemVer
 import com.semgrep.idea.lsp.custom_requests.LoginStatusRequest
 import com.semgrep.idea.settings.AppState
 import com.semgrep.idea.telemetry.SentryWrapper
@@ -34,14 +33,15 @@ class SemgrepLspServerListener(val project: Project) : LspServerListener {
         val settings = AppState.getInstance()
         if (settings.lspSettings.useJS) return
         val current = SemgrepInstaller.getCliVersion()
-        val needed = SemVer.parseFromText(SemgrepLspServer.MIN_SEMGREP_VERSION)
-        val latest = SemgrepInstaller.getMostUpToDateCliVersion()
-        if (current != null && !settings.lspSettings.ignoreCliVersion) {
+        val versionInfo = SemgrepInstaller.getMostUpToDateCliVersion()
+        if (versionInfo != null && current != null && !settings.lspSettings.ignoreCliVersion) {
+            val latest = versionInfo.latest
+            val needed = versionInfo.min
             settings.pluginState.semgrepVersion = current.toString()
             SentryWrapper.getInstance().setSentryContext()
-            if (needed != null && current < needed) {
+            if (current < needed) {
                 SemgrepNotifier(project).notifyUpdateNeeded(needed, current)
-            } else if (latest != null && current < latest) {
+            } else if (current < latest) {
                 SemgrepNotifier(project).notifyUpdateAvailable(current, latest)
             }
         }

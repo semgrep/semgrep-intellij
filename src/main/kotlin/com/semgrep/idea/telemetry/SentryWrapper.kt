@@ -13,6 +13,7 @@ val SKIP_FIELDS = arrayOf(
     "scan.configuration",
     "path"
 )
+const val DSN = "https://4d1a49b9d3a6cd498af148cfdd479820@o77510.ingest.us.sentry.io/4507370251288576"
 
 class SentryWrapper {
     companion object {
@@ -28,8 +29,7 @@ class SentryWrapper {
     fun init() {
         if (enabled() && !initialized) {
             Sentry.init { options ->
-                options.dsn = "https://4d1a49b9d3a6cd498af148cfdd479820@o77510.ingest.us.sentry.io/4507370251288576"
-
+                options.dsn = DSN
                 // Set traces_sample_rate to 1.0 to capture 100%
                 // of transactions for performance monitoring.
                 // We recommend adjusting this value in production.
@@ -59,10 +59,10 @@ class SentryWrapper {
             "jsInterpreterVersion" to appState.state.nodeJsInterpreter?.cachedVersion.toString(),
             "jsInterpreterName" to appState.state.nodeJsInterpreter?.referenceName
         )
-        val flatMap = appState.lspSettings.toFlatMap().filter { (t, _) ->
+        val settingsMap = appState.lspSettings.toFlattenedMap().filter { (t, _) ->
             SKIP_FIELDS.none { t.matches(it.toRegex()) }
         }
-        (baseMap + flatMap)
+        (baseMap + settingsMap)
             .forEach { (t, u) ->
                 Sentry.setTag(t, u.toString())
             }

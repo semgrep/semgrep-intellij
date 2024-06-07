@@ -23,7 +23,7 @@ data class SemgrepLspSettings(
     var heapSizeJS: Int = 4096,
 ) {
 
-    fun toFlatMap(): Map<String, String> {
+    fun toFlattenedMap(): Map<String, String> {
         return mapOf(
             "trace.server" to trace.server.name,
             "path" to path,

@@ -6,15 +6,17 @@ import com.intellij.openapi.util.Key
 import io.sentry.Attachment
 import io.sentry.Hint
 import java.time.format.DateTimeFormatter
+import kotlin.io.path.readBytes
+import kotlin.io.path.writeText
 
 class SentryProcessListener : ProcessListener {
-
-    private var processLog = mutableListOf<String>()
     private var sentry = SentryWrapper.getInstance()
+    private val tmpLog = kotlin.io.path.createTempFile("lsp-output", ".log")
 
     private fun attachmentOfLog(): Attachment {
         val humanReadableTimestamp = DateTimeFormatter.ISO_INSTANT.format(java.time.Instant.now())
-        return Attachment(processLog.joinToString("\n").toByteArray(), "lsp-output-$humanReadableTimestamp.log")
+        val processLog = tmpLog.readBytes()
+        return Attachment(processLog, "lsp-output-$humanReadableTimestamp.log")
     }
 
     override fun processTerminated(event: ProcessEvent) {
@@ -30,7 +32,7 @@ class SentryProcessListener : ProcessListener {
     override fun onTextAvailable(event: ProcessEvent, outputType: Key<*>) {
         super.onTextAvailable(event, outputType)
         if (outputType.toString() == "stderr") {
-            processLog.add(event.text)
+            tmpLog.writeText(event.text + "\n", Charsets.UTF_8)
         }
     }
 }
