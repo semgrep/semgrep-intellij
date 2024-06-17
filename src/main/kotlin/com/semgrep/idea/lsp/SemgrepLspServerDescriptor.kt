@@ -6,7 +6,9 @@ import com.intellij.javascript.nodejs.interpreter.NodeCommandLineConfigurator
 import com.intellij.lang.javascript.service.JSLanguageServiceUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.platform.lsp.api.Lsp4jClient
 import com.intellij.platform.lsp.api.LspServerListener
+import com.intellij.platform.lsp.api.LspServerNotificationsHandler
 import com.intellij.platform.lsp.api.ProjectWideLspServerDescriptor
 import com.semgrep.idea.settings.AppState
 import com.semgrep.idea.settings.SemgrepLspSettings
@@ -80,5 +82,10 @@ class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescrip
         return handler
 
     }
+
+    override fun createLsp4jClient(handler: LspServerNotificationsHandler): Lsp4jClient {
+        return SemgrepLsp4jClient(handler)
+    }
+
     override val lspServerListener: LspServerListener = SemgrepLspServerListener(project)
 }

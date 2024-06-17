@@ -6,6 +6,7 @@ import com.intellij.openapi.util.Key
 import io.sentry.Attachment
 import io.sentry.Hint
 import java.time.format.DateTimeFormatter
+import kotlin.io.path.appendText
 import kotlin.io.path.readBytes
 import kotlin.io.path.writeText
 
@@ -25,6 +26,8 @@ class SentryProcessListener : ProcessListener {
         if (event.exitCode != 0) {
             val exception = Exception("Lsp process terminated with exit code ${event.exitCode}")
             val attachment = attachmentOfLog()
+            // clear tmp log
+            tmpLog.writeText("", Charsets.UTF_8)
             sentry.captureException(exception, Hint.withAttachment(attachment))
         }
     }
@@ -32,7 +35,7 @@ class SentryProcessListener : ProcessListener {
     override fun onTextAvailable(event: ProcessEvent, outputType: Key<*>) {
         super.onTextAvailable(event, outputType)
         if (outputType.toString() == "stderr") {
-            tmpLog.writeText(event.text + "\n", Charsets.UTF_8)
+            tmpLog.appendText(event.text, Charsets.UTF_8)
         }
     }
 }

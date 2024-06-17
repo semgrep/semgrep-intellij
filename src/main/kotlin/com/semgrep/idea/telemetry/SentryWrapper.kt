@@ -1,10 +1,10 @@
 package com.semgrep.idea.telemetry
 
 import com.semgrep.idea.settings.AppState
-import io.sentry.Hint
-import io.sentry.Sentry
-import io.sentry.SentryOptions
+import io.sentry.*
+import io.sentry.protocol.SentryException
 import io.sentry.protocol.User
+import java.time.format.DateTimeFormatter
 
 val SKIP_FIELDS = arrayOf(
     "metrics.*",
@@ -80,6 +80,21 @@ class SentryWrapper {
             return
         }
         Sentry.captureException(e, hint)
+    }
+
+    fun captureLspError(errorParams: LspErrorParams) {
+        if (!initialized || !enabled()) {
+            return
+        }
+        val humanReadableTimestamp = DateTimeFormatter.ISO_INSTANT.format(java.time.Instant.now())
+        val hint =
+            Hint.withAttachment(Attachment(errorParams.stack.toByteArray(), "lsp-error-$humanReadableTimestamp.log"))
+        val event = SentryEvent()
+        val exception = SentryException()
+        exception.type = errorParams.name
+        exception.value = errorParams.message
+        event.exceptions = listOf(exception)
+        Sentry.captureEvent(event, hint)
     }
 
     fun <T> withSentry(f: () -> T): T {
