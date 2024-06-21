@@ -1,6 +1,7 @@
 package com.semgrep.idea.settings
 
 import com.intellij.openapi.options.Configurable
+import com.semgrep.idea.telemetry.SentryWrapper
 import javax.swing.JComponent
 
 class AppSettingsConfigurable : Configurable {
@@ -19,10 +20,12 @@ class AppSettingsConfigurable : Configurable {
 
     override fun apply() {
         settingsComponent?.getPanel()?.apply()
+        SentryWrapper.getInstance().setSentryContext()
     }
 
     override fun reset() {
         settingsComponent?.getPanel()?.reset()
+        SentryWrapper.getInstance().setSentryContext()
     }
 
     override fun getDisplayName(): String {

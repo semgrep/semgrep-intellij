@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.gradleIntelliJPlugin) // Gradle IntelliJ Plugin
     alias(libs.plugins.changelog) // Gradle Changelog Plugin
     alias(libs.plugins.kover) // Gradle Kover Plugin
+    id("io.sentry.jvm.gradle") version "4.6.0" //Sentry plugin
 }
 
 group = properties("pluginGroup").get()
@@ -38,6 +39,17 @@ intellij {
 
     // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
     plugins.set(listOf("JavaScript"))
+}
+
+sentry {
+    // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+    // This enables source context, allowing you to see your source
+    // code as part of your stack traces in Sentry.
+    includeSourceContext = true
+
+    org = "semgrep"
+    projectName = "ide-intellij"
+    authToken = System.getenv("SENTRY_AUTH_TOKEN")
 }
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin

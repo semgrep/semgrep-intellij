@@ -1,23 +1,29 @@
 package com.semgrep.idea.lsp
 
 import com.intellij.execution.configurations.GeneralCommandLine
+import com.intellij.execution.process.OSProcessHandler
 import com.intellij.javascript.nodejs.interpreter.NodeCommandLineConfigurator
-import com.intellij.javascript.nodejs.interpreter.NodeJsInterpreterManager
 import com.intellij.lang.javascript.service.JSLanguageServiceUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.platform.lsp.api.Lsp4jClient
 import com.intellij.platform.lsp.api.LspServerListener
+import com.intellij.platform.lsp.api.LspServerNotificationsHandler
 import com.intellij.platform.lsp.api.ProjectWideLspServerDescriptor
 import com.semgrep.idea.settings.AppState
 import com.semgrep.idea.settings.SemgrepLspSettings
 import com.semgrep.idea.settings.TraceLevel
+import com.semgrep.idea.telemetry.SentryProcessListener
+import com.semgrep.idea.telemetry.SentryWrapper
 import org.eclipse.lsp4j.services.LanguageServer
 
 class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescriptor(project, "Semgrep") {
     override val lsp4jServerClass: Class<out LanguageServer> = SemgrepLanguageServer::class.java
 
     fun getLspJSCommandLine(settingState: SemgrepLspSettings): GeneralCommandLine {
-        val interpreter = NodeJsInterpreterManager.getInstance(project).interpreter!!
+        // We can assume that the interpreter is not null because we check if it's installed before starting the server
+        val interpreter = SemgrepInstaller.getNodeInterpreter(project)!!
+        AppState.getInstance().state.nodeJsInterpreter = interpreter
         val lsp = JSLanguageServiceUtil.getPluginDirectory(javaClass, "lspjs/dist/semgrep-lsp.js")!!
 
         return GeneralCommandLine().apply {
@@ -61,6 +67,24 @@ class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescrip
 
     override fun createInitializationOptions(): Any {
         return AppState.getInstance().lspSettings
+    }
+
+    override fun startServerProcess(): OSProcessHandler {
+        // wrap process starting with Sentry since it can fail
+        val handler = SentryWrapper.getInstance().withSentry {
+            val startingCommandLine = createCommandLine()
+            val handler = OSProcessHandler(startingCommandLine)
+            // add process listener to capture errors when process terminates
+            handler.addProcessListener(SentryProcessListener())
+            LOG.info("$this: starting LSP server: $startingCommandLine")
+            return@withSentry handler
+        }
+        return handler
+
+    }
+
+    override fun createLsp4jClient(handler: LspServerNotificationsHandler): Lsp4jClient {
+        return SemgrepLsp4jClient(handler)
     }
 
     override val lspServerListener: LspServerListener = SemgrepLspServerListener(project)

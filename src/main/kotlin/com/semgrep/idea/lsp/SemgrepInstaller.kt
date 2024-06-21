@@ -1,6 +1,8 @@
 package com.semgrep.idea.lsp
 
 import com.intellij.execution.configurations.GeneralCommandLine
+import com.intellij.javascript.nodejs.interpreter.NodeJsInterpreter
+import com.intellij.javascript.nodejs.interpreter.NodeJsInterpreterManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.SystemInfo
 import com.intellij.util.text.SemVer
@@ -52,15 +54,22 @@ object SemgrepInstaller {
         return SemVer.parseFromText(out)
     }
 
-    fun getMostUpToDateCliVersion(): SemVer? {
+    data class VersionCheckInfo(val min: SemVer, val latest: SemVer)
+
+    fun getMostUpToDateCliVersion(): VersionCheckInfo? {
         val client = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder()
             .uri(URI.create("https://semgrep.dev/api/check-version"))
             .build()
-        val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
-        // Can't figure out how to actually parse this to a string, not a quoted string. Oh well
-        val version = Json.parseToJsonElement(response).jsonObject.get("latest").toString().replace("\"", "")
-        return SemVer.parseFromText(version)
+        try {
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
+            val versionObject = Json.parseToJsonElement(response).jsonObject
+            val latestVersion = versionObject["latest"].toString().replace("\"", "")
+            val minVersion = versionObject["versions"]!!.jsonObject["minimum"].toString().replace("\"", "")
+            return VersionCheckInfo(SemVer.parseFromText(minVersion)!!, SemVer.parseFromText(latestVersion)!!)
+        } catch (e: Exception) {
+            return null
+        }
     }
 
     fun which(binary: String): String? {
@@ -81,5 +90,14 @@ object SemgrepInstaller {
         return InstallOption.values().filter { it.isInstalled() }
     }
 
+    fun getNodeInterpreter(project: Project): NodeJsInterpreter? {
+        val interpreter = NodeJsInterpreterManager.getInstance(project).interpreter
+        if (interpreter == null) {
+            SemgrepNotifier(project).notifyJSInterpreterNeeded()
+            return null
+        }
+        return interpreter
+
+    }
 
 }
