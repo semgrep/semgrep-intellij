@@ -9,7 +9,9 @@ import com.semgrep.idea.telemetry.SentryWrapper
 class SemgrepLsp4jClient(serverNotificationsHandler: LspServerNotificationsHandler) : Lsp4jClient(
     serverNotificationsHandler
 ) {
+
     private val sentryInstance = SentryWrapper.getInstance()
+
     override fun telemetryEvent(`object`: Any) {
         val map = `object` as LinkedTreeMap<*, *>
         val params = LspErrorParams(

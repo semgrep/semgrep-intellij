@@ -29,5 +29,43 @@ class SemgrepLspServer(val server: LspServer) {
         }
     }
 
+    // notifications
+    fun notifyLogout() {
+        lsp4jServer.logout()
+    }
+
+    fun notifyLoginFinish(params: SemgrepCustomRequest.Companion.LoginResult) {
+        server.sendNotification {
+            (it as SemgrepLanguageServer).loginFinish(params)
+        }
+    }
+
+    fun notifyRefreshRules() {
+        server.sendNotification {
+            (it as SemgrepLanguageServer).refreshRules()
+        }
+    }
+
+    fun notifyScanWorkspace(params: SemgrepCustomNotification.Companion.ScanWorkspaceParams) {
+        server.sendNotification {
+            (it as SemgrepLanguageServer).scanWorkspace(params)
+        }
+    }
+
+    // requests
+    suspend fun requestLogin(): SemgrepCustomRequest.Companion.LoginResult? {
+        return server.sendRequest {
+            (it as SemgrepLanguageServer).login()
+        }
+    }
+
+    suspend fun requestLoginStatus(): SemgrepCustomRequest.Companion.LoginStatusResult? {
+        return server.sendRequest {
+            (it as SemgrepLanguageServer).loginStatus()
+        }
+    }
+
+
+
     val lsp4jServer = server.lsp4jServer as SemgrepLanguageServer
 }
