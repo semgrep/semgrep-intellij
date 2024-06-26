@@ -13,7 +13,7 @@ class LoginAction(private val notification: Notification? = null) : LspAction("S
                 val response = it.requestLogin()!!
                 BrowserUtil.browse(response.url)
                 servers.forEach {
-                    it.notifyLoginFinish(response)
+                    it.notifyLoginFinish(response.url, response.sessionId)
                 }
                 notification?.expire()
             }

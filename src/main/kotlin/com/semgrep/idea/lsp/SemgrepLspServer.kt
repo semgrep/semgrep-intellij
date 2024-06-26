@@ -3,9 +3,11 @@ package com.semgrep.idea.lsp
 import com.intellij.openapi.project.Project
 import com.intellij.platform.lsp.api.LspServer
 import com.intellij.platform.lsp.api.LspServerManager
+import org.eclipse.lsp4j.DidSaveTextDocumentParams
+import org.eclipse.lsp4j.TextDocumentIdentifier
 
 
-class SemgrepLspServer(val server: LspServer) {
+class SemgrepLspServer(private val server: LspServer) {
     companion object {
         // These should probably be split off into SemgrepLspManager or something
         private fun getManager(project: Project): LspServerManager {
@@ -21,7 +23,7 @@ class SemgrepLspServer(val server: LspServer) {
             val manager = getManager(project)
             val servers = manager.getServersForProvider(SemgrepLspServerSupportProvider::class.java)
             // There's prolly an easier way to do this but oh well
-            return servers.filter { it.lsp4jServer is SemgrepLanguageServer }.map {
+            return servers.filter { it.descriptor is SemgrepLspServerDescriptor }.map {
                 SemgrepLspServer(
                     it
                 )
@@ -31,10 +33,13 @@ class SemgrepLspServer(val server: LspServer) {
 
     // notifications
     fun notifyLogout() {
-        lsp4jServer.logout()
+        server.sendNotification {
+            (server as SemgrepLanguageServer).logout()
+        }
     }
 
-    fun notifyLoginFinish(params: SemgrepCustomRequest.Companion.LoginResult) {
+    fun notifyLoginFinish(url: String, sessionId: String) {
+        val params = SemgrepCustomRequest.Companion.LoginResult(url, sessionId)
         server.sendNotification {
             (it as SemgrepLanguageServer).loginFinish(params)
         }
@@ -46,9 +51,17 @@ class SemgrepLspServer(val server: LspServer) {
         }
     }
 
-    fun notifyScanWorkspace(params: SemgrepCustomNotification.Companion.ScanWorkspaceParams) {
+    fun notifyScanWorkspace(full: Boolean) {
+        val params = SemgrepCustomNotification.Companion.ScanWorkspaceParams(full)
         server.sendNotification {
             (it as SemgrepLanguageServer).scanWorkspace(params)
+        }
+    }
+
+    fun notifyDidSave(uri: String) {
+        val params = DidSaveTextDocumentParams(TextDocumentIdentifier(uri))
+        server.sendNotification {
+            it.textDocumentService.didSave(params)
         }
     }
 
@@ -67,5 +80,4 @@ class SemgrepLspServer(val server: LspServer) {
 
 
 
-    val lsp4jServer = server.lsp4jServer as SemgrepLanguageServer
 }
