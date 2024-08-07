@@ -1,8 +1,5 @@
 package com.semgrep.idea.lsp
 
-import com.semgrep.idea.lsp.custom_notifications.ScanWorkspaceParams
-import com.semgrep.idea.lsp.custom_requests.LoginResult
-import com.semgrep.idea.lsp.custom_requests.LoginStatusResult
 import org.eclipse.lsp4j.jsonrpc.services.JsonNotification
 import org.eclipse.lsp4j.jsonrpc.services.JsonRequest
 import org.eclipse.lsp4j.services.LanguageServer
@@ -12,14 +9,14 @@ interface SemgrepLanguageServer : LanguageServer {
 
     // Requests
     @JsonRequest("semgrep/login")
-    fun login(params:List<Void> = emptyList()): CompletableFuture<LoginResult>
+    fun login(params: List<Void> = emptyList()): CompletableFuture<SemgrepCustomRequest.Companion.LoginResult>
 
     @JsonRequest("semgrep/loginStatus")
-    fun loginStatus(params:List<Void> = emptyList()): CompletableFuture<LoginStatusResult>
+    fun loginStatus(params: List<Void> = emptyList()): CompletableFuture<SemgrepCustomRequest.Companion.LoginStatusResult>
 
     // Notifications
     @JsonNotification("semgrep/loginFinish")
-    fun loginFinish(params: LoginResult)
+    fun loginFinish(params: SemgrepCustomRequest.Companion.LoginResult)
 
     // We need the List<Void> because of a bug in lsp4j
     // when params are not defined, they get set to null (instead of removing the field)
@@ -29,7 +26,7 @@ interface SemgrepLanguageServer : LanguageServer {
 
 
     @JsonNotification("semgrep/scanWorkspace")
-    fun scanWorkspace(params: ScanWorkspaceParams)
+    fun scanWorkspace(params: SemgrepCustomNotification.Companion.ScanWorkspaceParams)
 
     @JsonNotification("semgrep/refreshRules")
     fun refreshRules(params: List<Void> = emptyList())
