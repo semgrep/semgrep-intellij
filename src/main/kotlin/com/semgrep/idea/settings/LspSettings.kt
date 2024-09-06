@@ -12,7 +12,7 @@ enum class TraceLevel {
 
 data class SemgrepLspSettings(
     var trace: Trace = Trace(),
-    var path: String = "semgrep",
+    var path: String = "",
     var ignoreCliVersion: Boolean = false,
     var scan: Scan = Scan(),
     var doHover: Boolean = false,

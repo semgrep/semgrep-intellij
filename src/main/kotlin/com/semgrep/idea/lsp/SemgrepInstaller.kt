@@ -43,7 +43,7 @@ object SemgrepInstaller {
     fun semgrepInstalled(): Boolean {
         val defaultPath = SemgrepLspSettings().path
         val state = AppState.getInstance().lspSettings
-        return state.path != defaultPath || which(defaultPath) != null
+        return state.path.isEmpty() || (state.path == "semgrep" && which(state.path) != null)
     }
 
     fun getCliVersion(): SemVer? {

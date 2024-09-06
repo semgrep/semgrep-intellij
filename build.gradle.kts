@@ -114,15 +114,11 @@ tasks {
             exec {
                 commandLine(
                     "./download-lspjs.sh",
-                    "Main.bc.js",
-                    "language-server-wasm.js",
-                    "semgrep-lsp-bindings.js",
-                    "semgrep-lsp.js"
                 )
             }
             copy {
-                from("${project.projectDir}/lspjs")
-                into("${destinationDir.path}/${intellij.pluginName.get()}/lspjs")
+                from("${project.projectDir}/dist")
+                into("${destinationDir.path}/${intellij.pluginName.get()}/dist")
             }
         }
     }

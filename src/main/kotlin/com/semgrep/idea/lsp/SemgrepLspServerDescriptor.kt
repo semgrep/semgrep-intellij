@@ -24,7 +24,7 @@ class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescrip
         // We can assume that the interpreter is not null because we check if it's installed before starting the server
         val interpreter = SemgrepInstaller.getNodeInterpreter(project)!!
         AppState.getInstance().state.nodeJsInterpreter = interpreter
-        val lsp = JSLanguageServiceUtil.getPluginDirectory(javaClass, "lspjs/dist/semgrep-lsp.js")!!
+        val lsp = JSLanguageServiceUtil.getPluginDirectory(javaClass, "dist/lspjs/semgrep-lsp.js")!!
 
         return GeneralCommandLine().apply {
             withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.CONSOLE)
@@ -39,7 +39,11 @@ class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescrip
     }
 
     fun getCLICommandLine(settingState: SemgrepLspSettings): GeneralCommandLine {
-        return GeneralCommandLine(settingState.path).apply {
+        var path = settingState.path
+        if (settingState.path.isEmpty()) {
+            path = JSLanguageServiceUtil.getPluginDirectory(javaClass, "dist/osemgrep-pro")!!.toString()
+        }
+        return GeneralCommandLine(path).apply {
             addParameter("lsp")
             if (settingState.trace.server == TraceLevel.VERBOSE){
                 addParameter("--debug")
