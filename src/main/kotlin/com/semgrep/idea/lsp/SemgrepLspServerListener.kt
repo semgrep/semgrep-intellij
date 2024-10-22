@@ -3,7 +3,6 @@ package com.semgrep.idea.lsp
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.platform.lsp.api.LspServerListener
-import com.semgrep.idea.lsp.custom_requests.LoginStatusRequest
 import com.semgrep.idea.settings.AppState
 import com.semgrep.idea.telemetry.SentryWrapper
 import com.semgrep.idea.ui.SemgrepNotifier
@@ -17,15 +16,15 @@ class SemgrepLspServerListener(val project: Project) : LspServerListener {
         val first = servers.firstOrNull()
         // Check if we've bugged them about logging in
         if (first != null && !settings.pluginState.dismissedLoginNudge) {
-            val loginStatusRequest = LoginStatusRequest(first)
-            loginStatusRequest.sendRequest().handle { it, _ ->
-                settings.pluginState.loggedIn = it.loggedIn
-                SentryWrapper.getInstance().setSentryContext()
-                if (!it.loggedIn) {
-                    SemgrepNotifier(project).notifyLoginNudge()
+            SemgrepLspServiceScope.getInstance().launch {
+                first.requestLoginStatus()?.let {
+                    settings.pluginState.loggedIn = it.loggedIn
+                    SentryWrapper.getInstance().setSentryContext()
+                    if (!it.loggedIn) {
+                        SemgrepNotifier(project).notifyLoginNudge()
+                    }
                 }
             }
-
         }
     }
 

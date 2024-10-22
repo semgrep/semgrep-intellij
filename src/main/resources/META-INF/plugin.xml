@@ -11,6 +11,9 @@
         <platform.lsp.serverSupportProvider implementation="com.semgrep.idea.lsp.SemgrepLspServerSupportProvider"/>
         <applicationService
                 serviceImplementation="com.semgrep.idea.settings.AppState"/>
+        <applicationService
+                serviceImplementation="com.semgrep.idea.lsp.SemgrepLspServiceScope"/>
+
         <applicationConfigurable
                 parentId="tools"
                 instance="com.semgrep.idea.settings.AppSettingsConfigurable"
