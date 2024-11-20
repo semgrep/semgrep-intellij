@@ -11,6 +11,7 @@ class LoginAction(private val notification: Notification? = null) : LspAction("S
         val loginRequest = LoginRequest(servers.first())
         loginRequest.sendRequest().thenApply { response ->
             BrowserUtil.browse(response.url)
+            BrowserUtil.browse(response.url)
             servers.forEach {
                 LoginFinishRequest(it, response).sendNotification()
             }
