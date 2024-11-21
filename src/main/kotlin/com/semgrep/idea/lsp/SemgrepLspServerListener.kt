@@ -9,7 +9,10 @@ import com.semgrep.idea.ui.SemgrepNotifier
 import kotlinx.coroutines.launch
 import org.eclipse.lsp4j.InitializeResult
 
-class SemgrepLspServerListener(val project: Project) : LspServerListener {
+class SemgrepLspServerListener(
+    private val project: Project,
+    private val nativeDidSaveSupport: Boolean,
+) : LspServerListener {
 
     fun checkNudge() {
         val settings = AppState.getInstance()
@@ -53,7 +56,9 @@ class SemgrepLspServerListener(val project: Project) : LspServerListener {
     }
 
     override fun serverInitialized(params: InitializeResult) {
-        project.messageBus.connect().subscribe(VirtualFileManager.VFS_CHANGES, FileSaveManager(project))
+        if (!nativeDidSaveSupport) {
+            project.messageBus.connect().subscribe(VirtualFileManager.VFS_CHANGES, FileSaveManager(project))
+        }
         val sentry = SentryWrapper.getInstance()
         sentry.withSentry {
             checkNudge()
