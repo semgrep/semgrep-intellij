@@ -2,20 +2,19 @@ package com.semgrep.idea.actions
 
 import com.intellij.ide.BrowserUtil
 import com.intellij.notification.Notification
-import com.intellij.openapi.actionSystem.AnActionEvent
-import com.semgrep.idea.lsp.custom_notifications.LoginFinishRequest
-import com.semgrep.idea.lsp.custom_requests.LoginRequest
+import com.intellij.platform.lsp.api.LspServer
+import com.semgrep.idea.lsp.SemgrepLanguageServer
+import com.semgrep.idea.lsp.SemgrepService
+import kotlinx.coroutines.launch
 
 class LoginAction(private val notification: Notification? = null) : LspAction("Sign In with Semgrep") {
-    override fun actionPerformed(e: AnActionEvent, servers: List<com.semgrep.idea.lsp.SemgrepLspServer>) {
-        val loginRequest = LoginRequest(servers.first())
-        loginRequest.sendRequest().thenApply { response ->
-            BrowserUtil.browse(response.url)
-            servers.forEach {
-                LoginFinishRequest(it, response).sendNotification()
-            }
+    override fun actionPerformed(lspServer: LspServer) {
+        SemgrepService.getInstance(lspServer.project).cs.launch {
+            val loginResult = lspServer.sendRequest { (it as SemgrepLanguageServer).login() }
+                ?: return@launch
+            BrowserUtil.browse(loginResult.url)
+            lspServer.sendNotification { (it as SemgrepLanguageServer).loginFinish(loginResult) }
             notification?.expire()
         }
-
     }
 }

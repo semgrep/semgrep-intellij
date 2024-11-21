@@ -1,8 +1,5 @@
 package com.semgrep.idea.lsp
 
-import com.semgrep.idea.lsp.custom_notifications.ScanWorkspaceParams
-import com.semgrep.idea.lsp.custom_requests.LoginResult
-import com.semgrep.idea.lsp.custom_requests.LoginStatusResult
 import org.eclipse.lsp4j.jsonrpc.services.JsonNotification
 import org.eclipse.lsp4j.jsonrpc.services.JsonRequest
 import org.eclipse.lsp4j.services.LanguageServer
@@ -34,4 +31,8 @@ interface SemgrepLanguageServer : LanguageServer {
     @JsonNotification("semgrep/refreshRules")
     fun refreshRules(params: List<Void> = emptyList())
 
+
+    class LoginResult(val url: String, @Suppress("unused") val sessionId: String)
+    class LoginStatusResult(val loggedIn: Boolean)
+    class ScanWorkspaceParams(@Suppress("unused") val full: Boolean)
 }
