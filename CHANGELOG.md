@@ -53,7 +53,8 @@
 - Version Bump by @ajbt200128 in https://github.com/returntocorp/semgrep-intellij/pull/12
 - @dependabot made their first contribution in https://github.com/returntocorp/semgrep-intellij/pull/2
 
-[Unreleased]: https://github.com/semgrep/semgrep-intellij/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/semgrep/semgrep-intellij/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/semgrep/semgrep-intellij/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/semgrep/semgrep-intellij/compare/v0.2.5...v0.3.0
 [0.2.5]: https://github.com/semgrep/semgrep-intellij/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/semgrep/semgrep-intellij/compare/v0.2.3...v0.2.4
