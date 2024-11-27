@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2024-11-27
+
+- Bumped LSP.js version
+- Removed use of deprecated API
+
 ## [0.3.0] - 2024-06-21
 
 - Bump LSP.js
