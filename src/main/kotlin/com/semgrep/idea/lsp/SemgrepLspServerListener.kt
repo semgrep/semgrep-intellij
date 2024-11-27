@@ -3,29 +3,30 @@ package com.semgrep.idea.lsp
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.platform.lsp.api.LspServerListener
-import com.semgrep.idea.lsp.custom_requests.LoginStatusRequest
 import com.semgrep.idea.settings.AppState
 import com.semgrep.idea.telemetry.SentryWrapper
 import com.semgrep.idea.ui.SemgrepNotifier
+import kotlinx.coroutines.launch
 import org.eclipse.lsp4j.InitializeResult
 
-class SemgrepLspServerListener(val project: Project) : LspServerListener {
+class SemgrepLspServerListener(
+    private val project: Project,
+    private val nativeDidSaveSupport: Boolean,
+) : LspServerListener {
 
     fun checkNudge() {
         val settings = AppState.getInstance()
-        val servers = SemgrepLspServer.getInstances(project)
-        val first = servers.firstOrNull()
         // Check if we've bugged them about logging in
-        if (first != null && !settings.pluginState.dismissedLoginNudge) {
-            val loginStatusRequest = LoginStatusRequest(first)
-            loginStatusRequest.sendRequest().handle { it, _ ->
-                settings.pluginState.loggedIn = it.loggedIn
-                SentryWrapper.getInstance().setSentryContext()
-                if (!it.loggedIn) {
-                    SemgrepNotifier(project).notifyLoginNudge()
-                }
+        if (settings.pluginState.dismissedLoginNudge) return
+        val lspServer = SemgrepService.getRunningLspServer(project) ?: return
+        SemgrepService.getInstance(project).cs.launch {
+            val loginStatusResult = lspServer.sendRequest { (it as SemgrepLanguageServer).loginStatus() }
+            val loggedIn = loginStatusResult != null && loginStatusResult.loggedIn
+            settings.pluginState.loggedIn = loggedIn
+            SentryWrapper.getInstance().setSentryContext()
+            if (!loggedIn) {
+                SemgrepNotifier(project).notifyLoginNudge()
             }
-
         }
     }
 
@@ -55,12 +56,10 @@ class SemgrepLspServerListener(val project: Project) : LspServerListener {
     }
 
     override fun serverInitialized(params: InitializeResult) {
-        super.serverInitialized(params)
-        val sentry = SentryWrapper.getInstance()
-
-        SemgrepLspServer.getInstances(project).forEach {
-            project.messageBus.connect().subscribe(VirtualFileManager.VFS_CHANGES, FileSaveManager(it))
+        if (!nativeDidSaveSupport) {
+            project.messageBus.connect().subscribe(VirtualFileManager.VFS_CHANGES, FileSaveManager(project))
         }
+        val sentry = SentryWrapper.getInstance()
         sentry.withSentry {
             checkNudge()
             checkVersion()

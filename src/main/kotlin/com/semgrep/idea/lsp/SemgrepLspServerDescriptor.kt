@@ -87,5 +87,6 @@ class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescrip
         return SemgrepLsp4jClient(handler)
     }
 
-    override val lspServerListener: LspServerListener = SemgrepLspServerListener(project)
+    override val lspServerListener: LspServerListener =
+        SemgrepLspServerListener(project, clientCapabilities.textDocument?.synchronization?.didSave == true)
 }
