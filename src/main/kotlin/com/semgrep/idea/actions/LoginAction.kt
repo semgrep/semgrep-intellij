@@ -10,10 +10,10 @@ import kotlinx.coroutines.launch
 class LoginAction(private val notification: Notification? = null) : LspAction("Sign In with Semgrep") {
     override fun actionPerformed(lspServer: LspServer) {
         SemgrepService.getInstance(lspServer.project).cs.launch {
-            val loginResult = lspServer.sendRequest { (it as SemgrepLanguageServer).login() }
+            val loginResult = lspServer.sendRequest { (it as SemgrepLanguageServer).loginStart() }
                 ?: return@launch
             BrowserUtil.browse(loginResult.url)
-            lspServer.sendNotification { (it as SemgrepLanguageServer).loginFinish(loginResult) }
+            lspServer.sendRequest { (it as SemgrepLanguageServer).loginFinish(loginResult) }
             notification?.expire()
         }
     }

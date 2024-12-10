@@ -8,16 +8,17 @@ import java.util.concurrent.CompletableFuture
 interface SemgrepLanguageServer : LanguageServer {
 
     // Requests
-    @JsonRequest("semgrep/login")
-    fun login(params:List<Void> = emptyList()): CompletableFuture<LoginResult>
+    @JsonRequest("semgrep/loginStart")
+    fun loginStart(params:List<Void> = emptyList()): CompletableFuture<LoginResult>
 
     @JsonRequest("semgrep/loginStatus")
     fun loginStatus(params:List<Void> = emptyList()): CompletableFuture<LoginStatusResult>
 
-    // Notifications
-    @JsonNotification("semgrep/loginFinish")
-    fun loginFinish(params: LoginResult)
+    @JsonRequest("semgrep/loginFinish")
+    fun loginFinish(params: LoginResult): CompletableFuture<LoginStatusResult>
 
+    // Notifications
+    //
     // We need the List<Void> because of a bug in lsp4j
     // when params are not defined, they get set to null (instead of removing the field)
     // and the server throws an exception
