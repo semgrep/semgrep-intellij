@@ -4,7 +4,11 @@
 
 ## [Unreleased]
 
-- Some internals API updates to authentication. The minimum supported Semgrep
+
+## [0.5.0] - 2024-12-18
+
+- Bumped LSP.js version
+- Some internal API updates to authentication. The minimum supported Semgrep
   CLI version is now 1.101.0
 
 ## [0.4.0] - 2024-11-27
@@ -56,13 +60,14 @@
 - Version Bump by @ajbt200128 in https://github.com/returntocorp/semgrep-intellij/pull/12
 - @dependabot made their first contribution in https://github.com/returntocorp/semgrep-intellij/pull/2
 
-[Unreleased]: https://github.com/semgrep/semgrep-intellij/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/semgrep/semgrep-intellij/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/semgrep/semgrep-intellij/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/semgrep/semgrep-intellij/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/semgrep/semgrep-intellij/compare/v0.2.5...v0.3.0
 [0.2.5]: https://github.com/semgrep/semgrep-intellij/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/semgrep/semgrep-intellij/compare/v0.2.3...v0.2.4
-[0.2.3]: https://github.com/returntocorp/semgrep-intellij/compare/v0.2.2...v0.2.3
-[0.2.2]: https://github.com/returntocorp/semgrep-intellij/compare/v0.2.0...v0.2.2
-[0.2.0]: https://github.com/returntocorp/semgrep-intellij/compare/v0.1.4...v0.2.0
-[0.1.4]: https://github.com/returntocorp/semgrep-intellij/compare/v0.1.3...v0.1.4
-[0.1.3]: https://github.com/returntocorp/semgrep-intellij/commits/v0.1.3
+[0.2.3]: https://github.com/semgrep/semgrep-intellij/compare/v0.2.2...v0.2.3
+[0.2.2]: https://github.com/semgrep/semgrep-intellij/compare/v0.2.0...v0.2.2
+[0.2.0]: https://github.com/semgrep/semgrep-intellij/compare/v0.1.4...v0.2.0
+[0.1.4]: https://github.com/semgrep/semgrep-intellij/compare/v0.1.3...v0.1.4
+[0.1.3]: https://github.com/semgrep/semgrep-intellij/commits/v0.1.3
