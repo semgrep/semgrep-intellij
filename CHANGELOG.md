@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+- Some internals API updates to authentication. The minimum supported Semgrep
+  CLI version is now 1.101.0
+
 ## [0.4.0] - 2024-11-27
 
 - Bumped LSP.js version
