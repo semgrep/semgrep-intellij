@@ -18,16 +18,16 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 object SemgrepInstaller {
-    enum class InstallOption(val binary: String, val installCommand: String) {
-        BREW("brew", "brew install semgrep"),
-        PIP("pip3", "pip3 install semgrep");
+    enum class InstallOption(val binary: String, vararg val args: String) {
+        BREW("brew", "install", "semgrep"),
+        PIP("pip3", "install", "semgrep");
 
         fun isInstalled(): Boolean {
             return which(binary) != null
         }
 
         fun install(project: Project) {
-            val cmd = GeneralCommandLine("sh", "-c", installCommand)
+            val cmd = GeneralCommandLine(binary).withParameters(*args)
             val process = cmd.createProcess()
             val ret = process.waitFor()
             val out = process.inputStream.bufferedReader().readText()
