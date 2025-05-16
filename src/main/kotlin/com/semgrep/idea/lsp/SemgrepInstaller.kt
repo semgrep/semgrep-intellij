@@ -75,7 +75,8 @@ object SemgrepInstaller {
     }
 
     fun which(binary: String): String? {
-        val cmd = GeneralCommandLine("which", binary)
+        val command = if (isWindows()) "where" else "which"
+        val cmd = GeneralCommandLine(command, binary)
 
         val process = cmd.createProcess()
         process.waitFor()
