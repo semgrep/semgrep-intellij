@@ -1,8 +1,14 @@
 package com.semgrep.idea.lsp
 
 import com.intellij.execution.configurations.GeneralCommandLine
+import com.intellij.execution.process.CapturingProcessHandler
+import com.intellij.execution.process.ProcessOutput
 import com.intellij.javascript.nodejs.interpreter.NodeJsInterpreter
 import com.intellij.javascript.nodejs.interpreter.NodeJsInterpreterManager
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.progress.ProgressIndicator
+import com.intellij.openapi.progress.ProgressManager
+import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.SystemInfo
 import com.intellij.platform.lsp.api.LspServerManager
@@ -27,18 +33,37 @@ object SemgrepInstaller {
         }
 
         fun install(project: Project) {
-            val cmd = GeneralCommandLine(binary).withParameters(*args)
-            val process = cmd.createProcess()
-            val ret = process.waitFor()
-            val out = process.inputStream.bufferedReader().readText()
-            val semgrepNotifier = SemgrepNotifier(project)
-            if (ret == 0) {
-                semgrepNotifier.notifyInstallSuccess()
-                LspServerManager.getInstance(project)
-                    .stopAndRestartIfNeeded(SemgrepLspServerSupportProvider::class.java)
-            } else {
-                semgrepNotifier.notifyInstallFailure(out, ret)
-            }
+            // Run the whole operation in an IntelliJ background task
+            ProgressManager.getInstance().run(object : Task.Backgroundable(
+                project,
+                "Installing Semgrep CLI",
+		true, /* canBeCancelled */
+            ) {
+                override fun run(indicator: ProgressIndicator) {
+                    indicator.text = "Running $binary ${args.joinToString(" ")}"
+
+                    val cmd = GeneralCommandLine(binary).withParameters(*args).apply {
+                        isRedirectErrorStream = true
+                        withCharset(Charsets.UTF_8)
+                    }
+
+                    // CapturingProcessHandler consumes output while the process is alive
+                    val handler = CapturingProcessHandler(cmd)
+                    val output: ProcessOutput = handler.runProcess(300000)  // timeout in 5 minutes
+
+                    // Switch back to EDT for any UI updates / notifications
+                    ApplicationManager.getApplication().invokeLater {
+                        val notifier = SemgrepNotifier(project)
+                        if (output.exitCode == 0) {
+                            notifier.notifyInstallSuccess()
+                            LspServerManager.getInstance(project)
+                                .stopAndRestartIfNeeded(SemgrepLspServerSupportProvider::class.java)
+                        } else {
+                            notifier.notifyInstallFailure(output.stdout.trim(), output.exitCode)
+                        }
+                    }
+                }
+            })
         }
     }
 
