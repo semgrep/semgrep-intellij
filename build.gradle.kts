@@ -67,6 +67,18 @@ koverReport {
     }
 }
 
+
+fun isBashAvailable(): Boolean {
+    return try {
+        exec {
+            commandLine("bash", "--version")
+        }
+        true
+    } catch (_: Throwable) {
+        false
+    }
+}
+
 tasks {
 
     buildSearchableOptions {
@@ -111,18 +123,23 @@ tasks {
     prepareSandbox {
         notCompatibleWithConfigurationCache("Uses project copy")
         doLast {
-            exec {
-                commandLine(
-                    "./download-lspjs.sh",
-                    "Main.bc.js",
-                    "language-server-wasm.js",
-                    "semgrep-lsp-bindings.js",
-                    "semgrep-lsp.js"
-                )
-            }
-            copy {
-                from("${project.projectDir}/lspjs")
-                into("${destinationDir.path}/${intellij.pluginName.get()}/lspjs")
+            if (!isBashAvailable()) {
+                println("Warning: 'bash' is not available on your PATH. Skipping lspjs setup.")
+            } else {
+                exec {
+                    commandLine(
+                        "bash",
+                        "download-lspjs.sh",
+                        "Main.bc.js",
+                        "language-server-wasm.js",
+                        "semgrep-lsp-bindings.js",
+                        "semgrep-lsp.js"
+                    )
+                }
+                copy {
+                    from("${project.projectDir}/lspjs")
+                    into("${destinationDir.path}/${intellij.pluginName.get()}/lspjs")
+                }
             }
         }
     }
