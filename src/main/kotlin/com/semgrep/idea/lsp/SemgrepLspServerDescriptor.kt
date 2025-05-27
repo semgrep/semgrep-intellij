@@ -57,7 +57,10 @@ class SemgrepLspServerDescriptor(project: Project) : ProjectWideLspServerDescrip
         return commandLine.apply {
             withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.CONSOLE)
             withCharset(Charsets.UTF_8)
-
+            if (SemgrepInstaller.isWindows()) {
+                // TODO: Remove when Semgrep is supported on Windows
+                withEnvironment("SEMGREP_FORCE_INSTALL", "1")
+            }
         }
     }
 
