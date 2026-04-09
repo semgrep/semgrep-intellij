@@ -224,11 +224,10 @@ jobs:
       - name: Create Release Draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_VERSION: ${{ needs.build.outputs.version }}
+          RELEASE_NOTES: ${{ needs.build.outputs.changelog }}
         run: |
-          gh release create v${{ needs.build.outputs.version }} \
+          gh release create "v${RELEASE_VERSION}" \
             --draft \
-            --title "v${{ needs.build.outputs.version }}" \
-            --notes "$(cat << 'EOM'
-          ${{ needs.build.outputs.changelog }}
-          EOM
-          )"
+            --title "v${RELEASE_VERSION}" \
+            --notes "${RELEASE_NOTES}"
